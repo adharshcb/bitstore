@@ -1,0 +1,36 @@
+<div class="col-lg-3">
+    <div class="" style="border-radius: 15px; background-color: #93e2bb;">
+        <div class="p-4 text-black">
+            <h2 class="">My Account</h2>                        
+        </div>
+        <div class="" >
+            <div class="list-group text-left pb-4 list-group-light" >
+                <a
+                  href="{% url 'dashboard' %}"
+                  class="list-group-item h5 list-group-item-action px-3 border-0 {% if '/accounts/' == request.path %}active{% endif %} ripple"
+                  aria-current="true"
+                  style="border-radius: 15px; background-color: #93e2bb;"
+                  >Profile</a
+                >
+                <a
+                  href="{% url 'my_orders' %}"
+                  class="list-group-item h5 list-group-item-action px-3 border-0 {% if '/my_orders/' in request.path %}active{% endif %} ripple"
+                  style="border-radius: 15px; background-color: #93e2bb;"
+                  >Orders</a
+                >
+                <a
+                  href="{% url 'edit_profile' %}"
+                  class="list-group-item h5 list-group-item-action px-3 border-0 {% if '/edit_profile/' in request.path %}active{% endif %} ripple"
+                  style="border-radius: 15px; background-color: #93e2bb;"
+                  >Edit Profile</a
+                >
+                <a
+                  href="{% url 'change_password' %}"
+                  class="list-group-item h5 list-group-item-action px-3 border-0 {% if '/change_password/' in request.path %}active{% endif %} ripple"
+                  style="border-radius: 15px; background-color: #93e2bb;"
+                  >Reset Password</a
+                >
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,128 @@
+{% extends 'home/main.html' %}
+{% load static %}
+{% block title %}BitStore{%endblock title %}
+{% block content %}
+
+    <!--================Checkout Area =================-->
+    <section class="checkout_area padding_top">
+        <div class="container">
+            <div class="billing_details">
+                <div class="row">
+                    <form class="row contact_form" action="{% url 'place_order' %}" method="post"  >
+                        <div class="col-lg-8">
+                            <h3>Billing Details</h3>
+                                {% csrf_token %}
+                            <div class="col-md-12 form-group p_star">
+                                <input type="text" class="form-control" id="first" name="first_name" placeholder="First name" required/>
+                                {% comment %} <span class="placeholder" data-placeholder="First name"></span> {% endcomment %}
+                            </div>
+                            <div class="col-md-12 form-group p_star">
+                                <input type="text" class="form-control" id="last" name="last_name" placeholder="Last name"required/>
+                                {% comment %} <span class="placeholder" data-placeholder=" name"></span> {% endcomment %}
+                            </div>
+                            <div class="col-md-12 form-group p_star">
+                                <input type="number" class="form-control" id="number" name="phone" placeholder="Phone Number"required/>
+                                {% comment %} <span class="placeholder" data-placeholder="Phone number"></span> {% endcomment %}
+                            </div>
+                            <div class="col-md-12 form-group p_star">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="email"required/>
+                                {% comment %} <span class="placeholder" data-placeholder="Country"></span> {% endcomment %}
+                            </div>
+                            <div class="col-md-12 form-group p_star">
+                                <input type="text" class="form-control" id="add1" name="address_line_1" placeholder="Address line 1" required/>
+                                {% comment %} <span class="placeholder" data-placeholder="Address line 01"></span> {% endcomment %}
+                            </div>
+                            <div class="col-md-12 form-group p_star">
+                                <input type="text" class="form-control" id="add2" name="address_line_2" placeholder="Address line 2" required/>
+                                {% comment %} <span class="placeholder" data-placeholder="Address line 02"></span> {% endcomment %}
+                            </div>
+                            <div class="col-md-12 form-group p_star">
+                                <input type="text" class="form-control" id="city" name="city" placeholder="City" required/>
+                                {% comment %} <span class="placeholder" data-placeholder="Town/City"></span> {% endcomment %}
+                            </div>
+                            <div class="col-md-12 form-group p_star">
+                                <input type="text" class="form-control" id="state" name="state" placeholder="State" required/>
+                                {% comment %} <span class="placeholder" data-placeholder="District"></span> {% endcomment %}
+                            </div>
+                            <div class="col-md-12 form-group p_star">
+                                <input type="text" class="form-control" id="country" name="country" placeholder="Country" required/>
+                                {% comment %} <span class="placeholder" data-placeholder="District"></span> {% endcomment %}
+                            </div>
+                            <div class="col-md-12 form-group p_star">
+                                <input type="text" class="form-control" id="pincode" name="pincode" placeholder="Pincode" required/>
+                                {% comment %} <span class="placeholder" data-placeholder="Postcode"></span> {% endcomment %}
+                            </div>
+                            
+                            <div class="col-md-12 form-group">
+                                <div class="creat_account">
+                                <h3>Shipping Details</h3>
+                                </div>
+                                <input class="form-control" name="order_note" id="order_note" rows="3"
+                                placeholder="Order Notes"></input>
+                            </div>
+                            
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="order_box">
+                                <h2>Your Order</h2>
+                                <ul class="list">
+                                    <li>
+                                    <a href="#">Product
+                                        <span>Total</span>
+                                    </a>
+                                    </li>
+                                    {% for cart_item in cart_items %}
+                                    <li>
+                                    <a href="{{cart_item.product.get_url}}" class="d-flex">
+                                        <div>
+                                            <p style='max-width: 12vw;'>{{cart_item.product.product_name | truncatechars:100}}</p>
+                                            {% if cart_item.variations.all %}
+                                            {% for item in cart_item.variations.all %}
+                                                <p>
+                                                    {{item.variation_category | capfirst}} : {{item.variation_value | capfirst}}
+                                                </p>
+                                            {% endfor %}                                
+                                            {% endif %}
+                                        </div>
+                                        <span class="middle ml-0 mr-2" style="text-align:center">x {{cart_item.quantity}}</span>
+                                        <span class="last">Rs.{{cart_item.product.price}}</span>
+                                    </a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                                <ul class="list list_2">
+                                    <li>
+                                    <a href="#">Subtotal
+                                        <span>Rs.{{total}}</span>
+                                    </a>
+                                    </li>
+                                    <li>
+                                    <a href="#">Tax
+                                        <span>Rs.{{tax}}</span>
+                                    </a>
+                                    </li>
+                                    <li>
+                                    <a href="#">Total
+                                        <span>Rs.{{grand_total}}</span>
+                                    </a>
+                                    </li>
+                                </ul>
+
+                                <div class="creat_account">
+                                    <input type="checkbox" onchange="this.setCustomValidity(validity.valueMissing ? 'Please indicate that you accept the Terms and Conditions' : '');" required id="f-option4" name="selector" />
+                                    <label for="f-option4">I've read and accept the </label>
+                                    <a href="#">terms & conditions*</a>
+                                </div>
+                                <button class="btn_3" type="submit" name="submit">Proceed to Payment</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        document.getElementById("f-option4").setCustomValidity("Please indicate that you accept the Terms and Conditions");
+    </script>
+    <!--================End Checkout Area =================-->
+{% endblock content %}

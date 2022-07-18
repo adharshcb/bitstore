@@ -1,0 +1,58 @@
+{% extends "admin_main/admin_main.html" %}
+{% load static %}
+{% block title %}Bitstore Admin panel{% endblock title %}
+{% block content %}
+  <!-- Content -->
+  <!-- Hoverable Table rows -->
+    <div class="card m-3">
+        {% include 'accounts_includes/alerts.html' %}
+       <h5 class="card-header">All User Accounts</h5>
+        <div class="table-responsive text-nowrap"style="min-height:80vh;">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>NO.</th>
+                        <th>EMAIL</th>
+                        <th>FIRST NAME</th>
+                        <th>LAST NAME</th>
+                        <th>USERNAME</th>
+                        <th>DATE JOINNED</th>
+                        <th>LAST LOGIN</th>
+                        <th>IS ACTIVE</th>
+                    </tr>
+                </thead>
+                <tbody class="table-border-bottom-0">
+                    {% for user in users %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{user.email}}</strong></td>
+                        <td>{{user.first_name}}</td>
+                        <td>{{user.last_name}}</td>
+                        <td>{{user.username}}</td>
+                        <td>{{user.date_joined}}</td>
+                        <td>{{user.last_login}}</td>
+                        <td>{{user.is_active}}</td>
+                        <td>
+                            <div class="dropdown">
+                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="{% url 'ban_user' user.id %}"
+                                    onclick="return confirm('Ban {{user.username}} ?')">
+                                        <i class="bx bx-trash me-1"></i>
+                                        Ban User
+                                    </a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+  <!--/ Hoverable Table rows -->
+  <!-- / Content -->
+{% endblock content %}
+            

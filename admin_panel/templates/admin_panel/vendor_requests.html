@@ -1,0 +1,115 @@
+{% extends "admin_main/admin_main.html" %}
+{% load static %}
+{% block title %}Bitstore Admin panel{% endblock title %}
+{% block content %}
+  <!-- Content -->
+
+  <!-- Hoverable Table rows -->
+  <div class="card m-3">
+      {% include 'accounts_includes/alerts.html' %}
+    <h5 class="card-header">Vendor Requests</h5>
+     <div class="table-responsive text-nowrap"style="min-height:40vh;">
+         <table class="table table-hover">
+             <thead>
+                    <tr>
+                        <th>NO.</th>
+                        <th>EMAIL</th>
+                        <th>FIRST NAME</th>
+                        <th>LAST NAME</th>
+                        <th>USERNAME</th>
+                        <th>DATE JOINNED</th>
+                        <th>LAST LOGIN</th>
+                        <th>IS ACTIVE</th>
+                    </tr>
+             </thead>
+             <tbody class="table-border-bottom-0">
+                 {% for vendor in vendor_req %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{vendor.email}}</strong></td>
+                        <td>{{vendor.first_name}}</td>
+                        <td>{{vendor.last_name}}</td>
+                        <td>{{vendor.username}}</td>
+                        <td>{{vendor.date_joined}}</td>
+                        <td>{{vendor.last_login}}</td>
+                        <td>{{vendor.is_active}}</td>
+                        <td>
+                            <div class="dropdown">
+                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="{% url 'vendor_approve' vendor.id %}"
+                                    onclick="return confirm('Approve {{vendor.username}} ?')">
+                                        <i class="bx bx-edit-alt me-1"></i>
+                                        Approve
+                                    </a>
+                                    <a class="dropdown-item" href="{% url 'vendor_reject' vendor.id %}"
+                                    onclick="return confirm('Reject {{vendor.username}} ?')">
+                                        <i class="bx bx-trash me-1"></i>
+                                        Reject
+                                    </a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                 {% endfor %}
+             </tbody>
+         </table>
+     </div>
+ </div>
+<!--/ Hoverable Table rows -->
+
+<!-- Hoverable Table rows -->
+<div class="card m-3">
+  <h5 class="card-header">Rejected Vendor Requests</h5>
+   <div class="table-responsive text-nowrap"style="min-height:40vh;">
+       <table class="table table-hover">
+           <thead>
+                  <tr>
+                      <th>NO.</th>
+                      <th>EMAIL</th>
+                      <th>FIRST NAME</th>
+                      <th>LAST NAME</th>
+                      <th>USERNAME</th>
+                      <th>DATE JOINNED</th>
+                      <th>LAST LOGIN</th>
+                      <th>IS ACTIVE</th>
+                  </tr>
+           </thead>
+           <tbody class="table-border-bottom-0">
+               {% for vendor in vendor_req_rejected %}
+                  <tr>
+                      <td>{{forloop.counter}}</td>
+                      <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{vendor.email}}</strong></td>
+                      <td>{{vendor.first_name}}</td>
+                      <td>{{vendor.last_name}}</td>
+                      <td>{{vendor.username}}</td>
+                      <td>{{vendor.date_joined}}</td>
+                      <td>{{vendor.last_login}}</td>
+                      <td>{{vendor.is_active}}</td>
+                      <td>
+                          <div class="dropdown">
+                              <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                  <i class="bx bx-dots-vertical-rounded"></i>
+                              </button>
+                              <div class="dropdown-menu">
+                                  <a class="dropdown-item" href="{% url 'vendor_approve' vendor.id %}"
+                                    onclick="return confirm('Approve {{vendor.username}} ?')">
+                                    <i class="bx bx-edit-alt me-1"></i>
+                                      Approve
+                                  </a>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+               {% endfor %}
+           </tbody>
+       </table>
+   </div>
+</div>
+<!--/ Hoverable Table rows -->
+
+  <!-- / Content -->
+{% endblock content %}
+            

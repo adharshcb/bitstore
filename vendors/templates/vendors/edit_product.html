@@ -1,0 +1,102 @@
+{% extends "vendor_main/vendor_main.html" %}
+{% load static %}
+{% block title %}Bitstore Vendor's panel{% endblock title %}
+{% block content %}
+<!-- Content -->
+<!-- HTML5 Inputs -->
+<div class="card mb-4 mt-3 mx-2">
+    <h5 class="card-header">Edit Products</h5>
+    {% comment %} {% include 'accounts_includes/alerts.html' %} {% endcomment %}
+    {{form.errors}}
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="card-body">
+            <div class="mb-3 row">
+                <label for="exampleFormControlSelect1" class="col-md-2 col-form-label">Product Category</label>
+                <div class="col-md-10">
+                    {{form.category}}
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="exampleFormControlSelect1" class="col-md-2 col-form-label">Product Sub-category</label>
+                <div class="col-md-10">
+                    {{form.sub_category}}
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="html5-text-input" class="col-md-2 col-form-label">Product Name</label>
+                <div class="col-md-10">
+                {{form.product_name}}
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="html5-text-input" class="col-md-2 col-form-label">Author</label>
+                <div class="col-md-10">
+                    {{form.author}}
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="exampleFormControlTextarea1" class="col-md-2 col-form-label">Description</label>
+                <div class="col-md-10">
+                    {{form.description}}
+                </div>
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="col-md-2 col-form-label">Price</span>
+                <span class="input-group-text">Rs.</span>
+                {{form.price}}
+                <span class="input-group-text">.00</span>
+            </div>
+            
+            <div class="mb-3 row">
+                <label for="html5-number-input" class="col-md-2 col-form-label">Stock</label>
+                <div class="col-md-10">
+                {{form.stock}}
+                </div>
+            </div>
+
+            <!-- File input -->
+            <div class="mb-3 row">
+                <label for="formFile" class="col-md-2 col-form-label">Primary Image</label>
+                <div class="m-4">
+                    <img src="{{product.primary_image.url}}" alt="primary_image" style="height: 150px;">
+                </div>
+                {{form.primary_image}}
+            </div>
+            <!-- File input -->
+            <div class="mb-3 row">
+                <label for="formFile" class="col-md-2 col-form-label">Additional Image</label>
+                <div class="m-4">
+                    {% for images in product.images_set.all %}
+                    <img class="mx-3" src="{{images.image.url}}" style="height: 150px;" alt="">
+                    {% endfor %}
+                </div>
+                <input class="form-control" name="images" type="file" id="formFileMultiple" multiple />
+            </div>
+            
+            <div class="form-check form-switch mb-2">
+                {{form.is_available}}
+                <label class="form-check-label" for="flexSwitchCheckChecked"
+                >Product available for sale</label
+                >
+            </div>
+            <div class="d-flex justify-content-end">
+                {% if product.is_available %}
+                <a href="{% url 'vendor_products' user.id %}" class="btn btn-outline-danger">Back</a>
+                {% else %}
+                <a href="{% url 'vendor_unlisted_product' user.id %}" class="btn btn-outline-danger">Back</a>
+                {% endif %}
+                <div class="px-2"></div>
+                <button type="submit" class="btn btn-outline-primary">Save</button>
+            </div>
+            
+        </div>
+    </form>
+</div>
+<!-- / Content -->
+{% endblock content %}

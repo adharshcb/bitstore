@@ -1,0 +1,10 @@
+{% autoescape off %}
+Hi, {{admin}} 
+user {{user.first_name}} has submitted vendor registration from,
+click below link to review the request.
+
+http://{{domain}}{% url 'vendor_requests' %}
+
+if you are not registered in this site, please ignore this email.
+
+{% endautoescape %}

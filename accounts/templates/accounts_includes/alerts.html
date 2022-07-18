@@ -1,0 +1,9 @@
+    {% if messages %}
+      {% for message in messages %}
+      <div {% if message.tags %} class="alert alert-{{ message.tags }} text-center tab-pane fade show" role="alert" {% endif %}>
+        <b>{{message}}</b>
+      </div>
+      {% endfor %}
+    {% endif %}
+    
+    {% comment %} position-absolute sticky-top mt-5 {% endcomment %}

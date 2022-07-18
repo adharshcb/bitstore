@@ -1,0 +1,148 @@
+{% extends 'home/main.html' %}
+{% load static %}
+{% block title %}BitStore{%endblock title %}
+{% block content %}
+<!--================ confirmation part start =================-->
+<section class="confirmation_part padding_top">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="confirmation_tittle">
+                    <h3>
+                        <b>Thank you. Your order has been received.</b>
+                    </h3>
+                    <a class="btn_1 mt-5" href="{% url 'store' %}">Continue Shopping</a>
+                </div>
+            </div>
+           
+            <div class="col-lg-12 col-lx-6">
+                <div class="single_confirmation_details">
+                    <h4>order info</h4>
+                    <ul>
+                        <li>
+                            <p>order number</p><span> #{{order.order_number}}</span>
+                        </li>
+                        <li>
+                            <p>Payment id</p><span>: {{order.payment.payment_id}}</span>
+                        </li>
+                        <li>
+                            <p>Date</p><span>: {{order.created_at}}</span>
+                        </li>
+                        <li>
+                            <p>total</p><span>: Rs.{{order.order_total}}</span>
+                        </li>
+                        <li>
+                            <p>mayment methord</p><span>: {{order.payment.payment_method}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-lg-6 col-lx-4">
+                <div class="single_confirmation_details">
+                    <h4>Billing Address</h4>
+                    <ul>
+                        <li>
+                            <p>name</p><span>: {{order.full_name}}</span>
+                        </li>
+                        <li>
+                            <p>address</p><span>: {{order.address_line_1}}</span><br>
+                            <span>  {{order.address_line_2}}</span><br>
+                            <span>{{order.city}}</span><br>
+                            <span>{{order.state}}</span>
+                            
+                        </li>
+                        <li>
+                            <p>country</p><span>: {{order.country}}</span>
+                        </li>
+                        <li>
+                            <p>postcode</p><span>: {{order.pincode}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-6 col-lx-4">
+                <div class="single_confirmation_details">
+                    <h4>shipping Address</h4>
+                    <ul>
+                        <li>
+                            <p>name</p><span>: {{order.full_name}}</span>
+                        </li>
+                        <li>
+                            <p>address</p><span>: {{order.address_line_1}}</span><br>
+                            <span>  {{order.address_line_2}}</span><br>
+                            <span>{{order.city}}</span><br>
+                            <span>{{order.state}}</span>
+                            
+                        </li>
+                        <li>
+                            <p>country</p><span>: {{order.country}}</span>
+                        </li>
+                        <li>
+                            <p>postcode</p><span>: {{order.pincode}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="order_details_iner">
+                    <h3>Order Details</h3>
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                            <th scope="col" colspan="2">Product</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in ordered_products %}
+                            <tr>
+                                <th colspan="2">
+                                    <span>{{item.product.product_name}}</span>
+                                    {% if item.variations.all %}
+                                        {% for i in item.variations.all %}
+                                            <p>
+                                                {{i.variation_category | capfirst}} : {{i.variation_value | capfirst}}
+                                            </p>
+                                        {% endfor %}                                
+                                    {% endif %}
+                                </th>
+                                <th>x{{item.quantity}}</th>
+                                <th> <span>Rs.{{item.product.price}}</span></th>
+                            </tr>
+                            {% endfor %}
+                            <tr>
+                                <th colspan="3">sub total</th>
+                                <th><span>{{sub_total}}</span></th>
+                            </tr>
+                            <tr>
+                                <th colspan="3">Tax</th>
+                                <th><span>{{order.tax}}</span></th>
+                            </tr>
+                            <tr>
+                                <th colspan="3">Shipping</th>
+                                <th> <span>Shipping On Us</span></th>
+                            </tr>
+                            <tr>
+                                <th colspan="3">Total</th>
+                                <th> <span>{{order.order_total}}</span></th>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                            <th scope="col" colspan="3">Quantity</th>
+                            <th scope="col">Total</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+  </section>
+  <!--================ confirmation part end =================-->
+  {% endblock content %}

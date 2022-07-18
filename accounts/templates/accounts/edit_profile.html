@@ -1,0 +1,79 @@
+{% extends 'home/main.html' %}
+{% load static %}
+{% block title %}BitStore{%endblock title %}
+{% block content %}
+<section class="vh-100" style="background-color: #eee;">
+    <div class="container py-5 h-100">
+        <div class="pt-5">
+            {% include 'accounts_includes/alerts.html' %}
+        </div>
+        <div class="row h-100">
+            {% include 'accounts_includes/dashboard_side_panel.html' %}
+            <div class="col-lg-9">
+                <div class="d-flex " style="border-radius: 15px; background-color: #93e2bb;">
+                    <div class="card-body p-4 text-black">
+                        <h6 class="h4 p-2">Edit profile</h6>
+                        <div class="text-right">
+                            {% if user_profile.profile_image %}
+                            <img src="{{user_profile.profile_image.url}}" width="100" style="border-radius:50px;" alt="Profile Picture">
+                            {% else %}
+                            <img src="" width="100" style="border-radius:50px;" alt="Profile Picture">
+                            {% endif %}
+                        </div>
+                        <form action="{% url 'edit_profile' %}" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-row justify-content-between">
+                                <div class="form-group col-md-6">
+                                    <label for="">First Name</label>
+                                    {{user_form.first_name}}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="">Last Name</label>
+                                    {{user_form.last_name}}
+                                </div>
+                            </div>
+                            <div class="form-row justify-content-between">
+
+                                <div class="form-group col-md-6">
+                                    <label for="">Phone Number</label>
+                                    {{user_form.phone_number}}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="">Profile Picture</label>
+                                    {{profile_form.profile_image}}
+                                </div>
+                            </div>
+                                <div class="form-group">
+                                    <label for="">Address line 1</label>
+                                    {{profile_form.address_line_1}}
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Address line 2</label>
+                                    {{profile_form.address_line_2}}
+                                </div>
+                            <div class="form-row justify-content-between">
+                                <div class="form-group col-md-4">
+                                    <label for="">City</label>
+                                    {{profile_form.city}}
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="">State</label>
+                                    {{profile_form.state}}
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="">Country</label>
+                                    {{profile_form.country}}
+                                </div>
+                            </div>
+
+                            <input type="submit" value="Save" class="btn btn-secondary">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock content %}

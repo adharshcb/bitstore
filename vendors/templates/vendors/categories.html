@@ -1,0 +1,44 @@
+{% extends "vendor_main/vendor_main.html" %}
+{% load static %}
+{% block title %}Bitstore Vendor's panel{% endblock title %}
+{% block content %}
+    <!-- Content -->
+
+    <!-- Hoverable Table rows -->
+    <div class="card m-3">
+        <div class="container mt-0">
+            {% if messages %}
+            <div class="row justify-content-center mt-0">
+                {% include 'accounts_includes/alerts.html' %}
+            </div>
+            {% endif %}
+        </div>
+        <h5 class="card-header">Available Categories</h5>
+        <div class="table-responsive text-nowrap" style="min-height:80vh;">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>CATEGORY NAME</th>
+                        <th>SLUG</th>
+                        <th>DESCRIPTION</th>
+                        <th>CATEGORY IMAGE</th>
+                    </tr>
+                </thead>
+                <tbody class="table-border-bottom-0">
+                    {% for category in categories %}
+                    <tr>
+                        <td>{{category.category_name}}</td>
+                        <td>{{category.slug}}</td>
+                        <td>{{category.description}}</td>
+                        <td><img src="{{category.cat_image.url}}" style="height:50px;object-fit:contain;" alt="categoryimage"></td>
+                        
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!--/ Hoverable Table rows -->
+
+    <!-- / Content -->
+{% endblock content %}

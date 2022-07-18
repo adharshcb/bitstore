@@ -1,0 +1,45 @@
+{% extends 'home/main.html' %}
+{% load static %}
+{% block title %}BitStore{%endblock title %}
+{% block content %}
+<section class="vh-100" style="background-color: #eee;">
+    <div class="container py-5 h-100">
+        <div class="row mt-5 h-100">
+            {% include 'accounts_includes/dashboard_side_panel.html' %}
+            <div class="col-lg-9">
+                <div class="d-flex " style="border-radius: 15px; background-color: #93e2bb;">
+                    <div class="card-body p-4 text-black">
+                        <h6 class="h4 p-2">Orders</h6>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">No.</th>
+                                    <th scope="col">Order Number</th>
+                                    <th scope="col">Billing Name</th>
+                                    <th scope="col">Phone</th>
+                                    <th scope="col">Order Total</th>
+                                    <th scope="col">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in orders %}
+                                <tr>
+                                  <th scope="row">{{forloop.counter}}</th>
+                                  <td><a href="{% url 'order_details' order.order_number %}"><b>{{order.order_number}}</b></a></td>
+                                  <td>{{order.full_name | capfirst}}</td>
+                                  <td>{{order.phone}}</td>
+                                  <td>{{order.order_total}}</td>
+                                  <td>{{order.created_at}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock content %}

@@ -1,0 +1,57 @@
+{% extends 'home/main.html' %}
+{% load static %}
+{% block title %}BitStore{%endblock title %}
+{% block content %}
+<section class="vh-100" style="background-color: #eee;">
+    <div class="container py-5 h-100">
+        <div class="row mt-5 h-100">
+            {% include 'accounts_includes/dashboard_side_panel.html' %}
+            <div class="col-lg-9">
+                <div class="d-flex" style="border-radius: 15px; background-color: #93e2bb;">
+                    <div class="col-8">
+                        <div class="card-body p-4 text-black">
+                            <h6 class="h4">Profile</h6> 
+                        </div>
+                        <div class="p-3">
+                            <h5>Name: {{user.fullname | capfirst}}</h5>
+                            <h5>Username: {{user.username}}</h5>
+                            <h5>Email: {{user.email}}</h5>
+                            <h5>Phone Number: {{user.phone_number}}</h5>
+                            <h5>Last Login: {{user.last_login}}</h5>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="float-end p-5">
+                            <img
+                                id="animationDemo"
+                                data-mdb-toggle="animation"
+                                data-mdb-animation-reset="true"
+                                src="{{profile.profile_image.url}}"
+                                class="shadow-1-strong rounded-circle"
+                                width='150'
+
+                                />                       
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex mt-4" style="border-radius: 15px; background-color: #93e2bb;">
+                    <div class="card-body p-4 text-black">
+                        <h6 class="h4 p-2">Address</h6>
+                        <div class="d-flex">
+                            <div class="col-6">
+                                <h5>{{profile.user.fullname}}</h5>
+                                <h5>{{profile.full_address}}</h5>
+                                <h5>{{profile.city}}, {{profile.state}}</h5>
+                                <h5>{{profile.country}}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock content %}

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zxx">
+{% load static %}
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}{% endblock title %}</title>
+    <link rel="icon" href="{% static 'store/bitimg/favicon.png' %}">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'store/css/bootstrap.min.css' %}">
+    <!-- animate CSS -->
+    <link rel="stylesheet" href="{% static 'store/css/animate.css' %}">
+    <!-- owl carousel CSS -->
+    <link rel="stylesheet" href="{% static 'store/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'store/css/lightslider.min.css' %}">
+    <!-- nice select CSS -->
+    <link rel="stylesheet" href="{% static 'store/css/nice-select.css' %}">
+    <!-- font awesome CSS -->
+    <link rel="stylesheet" href="{% static 'store/css/all.css' %}">
+    <!-- flaticon CSS -->
+    <link rel="stylesheet" href="{% static 'store/css/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'store/css/themify-icons.css' %}">
+    <!-- font awesome CSS -->
+    <link rel="stylesheet" href="{% static 'store/css/magnific-popup.css' %}">
+    <!-- swiper CSS -->
+    <link rel="stylesheet" href="{% static 'store/css/slick.css' %}">
+    <!-- style CSS -->
+    <link rel="stylesheet" href="{% static 'store/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'store/css/custom.css' %}">
+    <style>
+      .errorlist{
+        position: absolute;
+        padding-top: 2px;
+        padding-left:5px;
+        list-style-type:none;
+        color:red;
+      }
+    </style>
+    {% block style %}{% endblock style %}
+    
+</head>
+
+<body>
+    {% include 'includes/header.html' %}
+    {% block content %}
+    {% endblock content %}
+    {% include 'includes/footer.html' %}
+    <!-- jquery plugins here-->
+    <script>
+      window.setTimeout(function() {
+        $(".alert").fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove(); 
+        });
+      }, 2000);
+    </script>
+    {% block script %}{% endblock script %}
+    <script src="{% static 'store/js/jquery-1.12.1.min.js' %}"></script>
+    <!-- popper js -->
+    <script src="{% static 'store/js/popper.min.js' %}"></script>
+    <!-- bootstrap js -->
+    <script src="{% static 'store/js/bootstrap.min.js' %}"></script>
+    <!-- easing js -->
+    <script src="{% static 'store/js/jquery.magnific-popup.js' %}"></script>
+    <script src="{% static 'js/lightslider.min.js' %}"></script>
+    <!-- swiper js -->
+    <script src="{% static 'store/js/swiper.min.js' %}"></script>
+    <!-- swiper js -->
+    <script src="{% static 'store/js/masonry.pkgd.js' %}"></script>
+    <!-- particles js -->
+    <script src="{% static 'store/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'store/js/jquery.nice-select.min.js' %}"></script>
+    <!-- slick js -->
+    <script src="{% static 'store/js/slick.min.js' %}"></script>
+    <script src="{% static 'js/swiper.jquery.js' %}"></script>
+    <script src="{% static 'store/js/jquery.counterup.min.js' %}"></script>
+    <script src="{% static 'store/js/waypoints.min.js' %}"></script>
+    <script src="{% static 'store/js/contact.js' %}"></script>
+    <script src="{% static 'store/js/jquery.ajaxchimp.min.js' %}"></script>
+    <script src="{% static 'store/js/jquery.form.js' %}"></script>
+    <script src="{% static 'store/js/jquery.validate.min.js' %}"></script>
+    <script src="{% static 'store/js/mail-script.js' %}"></script>
+    <script src="{% static 'js/stellar.js' %}"></script>
+    <!-- custom js -->
+    <script src="{% static 'js/theme.js' %}"></script>
+    <script src="{% static 'store/js/custom.js' %}"></script>
+</body>
+
+</html>

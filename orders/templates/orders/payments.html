@@ -1,0 +1,207 @@
+{% extends 'home/main.html' %}
+{% load static %}
+{% block title %}BitStore{%endblock title %}
+{% block content %}
+
+    <!--================Checkout Area =================-->
+    <section class="checkout_area padding_top">
+        <div class="container">
+            <div class="billing_details">
+                <div class="row">   
+                    <div class="col-lg-12">
+                        <div class="order_box">
+                            <h2><b>Billing Address</b></h2>
+                            <ul class="list">
+                                <li>
+                                    <h5>{{order.full_name}}</h5>
+                                    <p>{{order.full_address}}</p>
+                                    <p>{{order.city}},{{order.state}}</p>
+                                    <p>{{order.country}}</p>
+                                    <p>{{order.pincode}}</p>
+                                    <p>{{order.email}}</p>
+                                    <p>{{order.phone}}</p>
+                                    {% if order.order_note %}
+                                    <b>Order Note:</b>
+                                    <p>{{order.order_note}}</p>
+                                    {% endif %}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <form action="">
+            <div class="billing_details mt-3">
+                <div class="row">   
+                    <div class="col-lg-12">
+                        <div class="order_box">
+                            <h2><b>Payment Method</b></h2>
+                            <ul class="list">
+                                <li>
+                                    <div class="payment_item active">
+                                        <div class="radion_btn">
+                                        <input type="radio" id="f-option6" name="selector" required/>
+                                        <label for="f-option6">Razor Pay</label>
+                                        <img src="img/product/single-product/card.jpg" alt="" />
+                                        <div class="check"></div>
+                                        </div>
+                                        <p>
+                                        Please send a check to Store Name, Store Street, Store Town,
+                                        Store State / County, Store Postcode.
+                                        </p>
+                                    </div>  
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="billing_details mt-3">
+                <div class="row">   
+                    <div class="col-lg-12">
+                        <div class="order_box">
+                            <h2><b>Review Products</b></h2>
+                            <ul class="list">
+                                <li>
+                                <a href="#">Product
+                                    <span>Total</span>
+                                </a>
+                                </li>
+                                {% for cart_item in cart_items %}
+                                <li>
+                                <a href="{{cart_item.product.get_url}}" >
+                                    <div class="d-flex justify-content-between p-2">
+                                        <p >{{cart_item.product.product_name}}</p>
+                                        <p class="text-center">x {{cart_item.quantity}}</p>
+                                        <p class="text-center">Rs.{{cart_item.product.price}}</p>
+                                    </div>
+                                </a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            <ul class="list list_2">
+                                <li>
+                                <a href="#">Subtotal
+                                    <span><b>Rs.{{total}}</b></span>
+                                </a>
+                                </li>
+                                <li>
+                                <a href="#">Tax
+                                    <span><b>Rs.{{tax}}</b></span>
+                                </a>
+                                </li>
+                                <li>
+                                <a href="#">Total
+                                    <span><b>Rs.{{grand_total}}</b></span>
+                                </a>
+                                </li>
+                            </ul>
+                            
+
+                            <div class="creat_account">
+                                <input type="checkbox" id="f-option4" name="selector" required/>
+                                <label for="f-option4">I've read and accept the </label>
+                                <a href="#">terms & conditions*</a>
+                            </div>
+                            <button class="btn_3" type="submit" id="rzp-button1" name="submit">Proceed to Payment</button>
+                            {% comment %} <button class="rzp-button1">pay</button> {% endcomment %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </form>
+        </div>
+    </section>
+    <!--================End Checkout Area =================-->
+{% endblock content %}
+{% block script %}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    var csrftoken = getCookie('csrftoken');
+    var url = "{% url 'payments' %}"
+    var orderID = "{{order.order_number}}"
+    var payment_method = "Razorpay"
+    var amount_paid = "{{order.order_total}}"
+    var status="success"
+    var redirect_url="{% url 'order_complete' %}"
+
+    var options = {
+        "key": "rzp_test_NNYgytwoxPgefB", 
+        "amount": "6767", 
+        "currency": "INR",
+        "name": "BitStore",
+        "description": "purchase test 1",
+        "image": "https://example.com/your_logo",
+        "order_id": "{{payment.id}}",
+        "handler": function (response){
+            sendData();
+            function sendData(){
+                fetch(url,{
+                    method : "POST",
+                    headers : {
+                        "Content-type":"application/json",
+                        "X-CSRFToken": csrftoken,
+                    },
+                    body:JSON.stringify({
+                        order_id:orderID,
+                        razorpay_payment_id:response.razorpay_payment_id,
+                        razorpay_order_id:response.razorpay_order_id,
+                        razorpay_signature:response.razorpay_signature,
+                        payment_method:payment_method,
+                        amount_paid:amount_paid,
+                        status:status,
+                    }),
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    window.location.href = redirect_url + '?order_number='+data.order_number +'&payment_id='+data.payment_id;
+                });
+            }
+
+        },
+        "prefill": {
+            "name": "Gaurav Kumar",
+            "email": "gaurav.kumar@example.com",
+            "contact": "9999999999"
+        },
+        "notes": {
+            "address": "Razorpay Corporate Office"
+        },
+        "theme": {
+            "color": "#3399cc"
+        }
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.on('payment.failed', function (response){
+            alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.reason);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id);
+    });
+    document.getElementById('rzp-button1').onclick = function(e){
+        rzp1.open();
+        e.preventDefault();
+    }
+    </script>
+    
+{% endblock script %}

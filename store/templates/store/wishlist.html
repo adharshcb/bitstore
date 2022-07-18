@@ -1,0 +1,137 @@
+{% extends 'home/main.html' %}
+{% load static %}
+{% block title %}BitStore{%endblock title %}
+{% block content %}
+<!--================Home Banner Area =================-->
+<!-- breadcrumb start-->
+<section class="breadcrumb" style="height:200px; background-color:#ecfdff" >
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="breadcrumb_iner" style="height:27vh; " >
+                <div class="breadcrumb_iner_item">
+                    <h2>Wishlist</h2>
+                    <p>Home <span>-</span>Wishlist Products</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+<!-- breadcrumb start-->
+<!--================Cart Area =================-->
+{% if not cart_items %}
+
+<!-- subscribe_area part start-->
+<section class="">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <div class="subscribe_area_text text-center mt-3">
+                    <h2>Your Wishlist is Empty !!</h2>
+                    <hr>
+                    <h>Add Your Favorites Books Now</h5>
+                    <br><br>
+                    <div class="">
+                        <a href="{% url 'store' %}" class="input-group-text btn_3" id="basic-addon2">Continue Shopping</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--::subscribe_area part end::-->
+
+{% else %}
+<section class="cart_area">
+<div class="container">
+    <div class="cart_inner">
+    <div class="table-responsive">
+        <hr>
+        <table class="table">
+            <div class="checkout_btn_inner float-right p-5">
+                <a class="btn_1" href="{% url 'store' %}">Continue Shopping</a>
+            </div>
+            <thead>
+                <tr>
+                <th scope="col">Products</th>
+                <th scope="col">Price</th>
+                <th scope="col"></th>
+                <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cart_item in cart_items %}
+                <tr>
+                    <td>
+                        <div class="media">
+                            <div class="d-flex">
+                                <img src="{{cart_item.product.primary_image.url}}" alt="" style="height:150px"/>
+                            </div>
+                            <div class="media-body">
+                                <a href="{{ cart_item.product.get_url }}"><h3>{{cart_item.product.product_name}}</h3></a>
+                                <p>Author: {{cart_item.product.author | truncatechars:170}}</p>
+                                {% if cart_item.variations.all %}
+                                    {% for item in cart_item.variations.all %}
+                                        <p>
+                                            {{item.variation_category}} : {{item.variation_value}}
+                                        </p>
+                                    {% endfor %}                                
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <h5>Rs.{{cart_item.product.price}}</h5>
+                    </td>
+                    <td>
+                        <div class="product">
+                        </div>
+                    </td>
+                    <td>
+                        <a class="btn_1 m-2" href="{% url 'remove_wishlist' cart_item.product.id %}" onclick="return confirm('Are you sure?')">remove</a>
+                        <a class="btn_1 m-2" href="{{cart_item.product.get_url}}">Buy Now</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+    </div>
+    </div>
+</section>
+<!--================End Cart Area =================-->
+{% endif %}
+<!-- product_list part start-->
+<section class="product_list best_seller section_padding">  
+    <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-12">
+        <div class="section_tittle text-center">
+            <h2>Best Sellers <span>shop</span></h2>
+        </div>
+        </div>
+    </div>
+    <div class="row align-items-center justify-content-between">
+        <div class="col-lg-12">
+        <div class="best_product_slider owl-carousel">
+            {% for product in all %}
+            <a href="{{product.get_url}}">
+                <div class="single_product_item">
+                <img src="{{product.primary_image.url}}" style="height:350px" alt="" />
+                <div class="single_product_text">
+                    <div style="min-height:7vh;">
+                        <h4>{{product.product_name}}</h4>
+                    </div>
+                    <h3 class="align-bottom">Rs.{{product.price}}</h3>
+                </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        </div>
+    </div>
+    </div>
+</section>
+<!-- product_list part end-->
+{% endblock content %}

@@ -1,0 +1,66 @@
+{% extends "admin_main/admin_main.html" %}
+{% load static %}
+{% block title %}Bitstore Admin Panel{% endblock title %}
+{% block content %}
+    <!-- Content -->
+
+    <!-- Hoverable Table rows -->
+    <div class="card m-3 ">
+        <div class="container mt-0">
+            {% include 'accounts_includes/alerts.html' %}
+        </div>
+        <h5 class="card-header">All Categories</h5>
+        <div class='text-end pe-5'><a href="{% url 'admin_add_category' %}" class="btn btn-outline-danger" style='width:auto'>Add New</a></div>
+        <div class="table-responsive text-nowrap" style="min-height:80vh;">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>NO.</th>
+                        <th>CATEGORY NAME</th>
+                        <th>SLUG</th>
+                        <th>DESCRIPTION</th>
+                        <th>CATEGORY IMAGE</th>
+                    </tr>
+                </thead>
+                <tbody class="table-border-bottom-0">
+                    {% for category in categories %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{category.category_name}}</td>
+                        <td>{{category.slug}}</td>
+                        <td>{{category.description}}</td>
+                        <td>
+                            {% if category.cat_image %}
+                            <img src="{{category.cat_image.url}}" style="height:70px;width:170px" alt="">
+                            {% else %}
+                            <img alt="_no image found">
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="dropdown">
+                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="{% url 'admin_edit_category' category.id %}">
+                                        <i class="bx bx-edit-alt me-1"></i>
+                                        Edit
+                                    </a>
+                                    <a class="dropdown-item" href="{% url 'admin_delete_category' category.id %}"
+                                    onclick="return confirm('Please confirm the deletion of {{category.category_name}} category')">
+                                        <i class="bx bx-trash me-1"></i>
+                                        Delete
+                                    </a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!--/ Hoverable Table rows -->
+
+    <!-- / Content -->
+{% endblock content %}

@@ -1,0 +1,227 @@
+{% extends 'home/main.html' %}
+{% load static %}
+{% block title %}BitStore{%endblock title %}
+{% block content %}
+
+<style>
+    .section_padding {
+        padding: 80px 0px;
+    }
+</style>
+    <!--================Home Banner Area =================-->
+    <!-- breadcrumb start-->
+<section class="breadcrumb" style="height:200px; background-color:#ecfdff" >
+    <div class="container">
+        <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="breadcrumb_iner" style="height:27vh; " >
+                <div class="breadcrumb_iner_item">
+                    {% if 'search' in request.path %}
+                    <h3>Search Result</h3>
+                    {% else %}
+                    <h1>Home</h1>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    </section>
+    <!-- breadcrumb start-->
+    
+    <!--================Category Product Area =================-->
+    <section class="cat_product_area section_padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="left_sidebar_area">
+                        <aside class="left_widgets p_filter_widgets">
+                            <div class="l_w_title">
+                                <h3>Browse Categories</h3>
+                            </div>
+                            <div class="widgets_inner" style="border-bottom:0px">
+                                <ul class="list">
+                                    <li>
+                                        <a  href="{% url 'store' %}">All products</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="widgets_inner">
+                                <ul class="list">
+                                    {% for category in links %}
+                                    <li>
+                                        <a href="{{category.get_url}}">{{category.category_name}}</a>
+                                        
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </aside>
+
+                        <aside class="left_widgets p_filter_widgets price_rangs_aside">
+                            <div class="l_w_title">
+                                <h3>Price Filter</h3>
+                            </div>
+                            <div class="widgets_inner">
+                                <div class="range_item">
+                                    <div id="slider-range"></div>
+                                    <input type="text" class="js-range-slider w-75" value="" />
+                                    <div class="d-flex">
+                                        <div class="price_text">
+                                            <p>Price :</p>
+                                        </div>
+                                        <div class="price_value d-flex justify-content-center">
+                                            <input type="text" class="js-input-from" id="amount" readonly />
+                                            <span>to</span>
+                                            <input type="text" class="js-input-to" id="amount" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="product_top_bar d-flex justify-content-between align-items-center">
+                                <div class="single_product_menu">
+                                    <p><span>{{product_count}}</span> Products Found</p>
+                                </div>
+                                <div class="single_product_menu d-flex">
+                                    <h5>short by : </h5>
+                                    <select>
+                                        <option data-display="Select">name</option>
+                                        <option value="1">price</option>
+                                        <option value="2">product</option>
+                                    </select>
+                                </div>
+                                <div class="single_product_menu d-flex">
+                                    <h5>show :</h5>
+                                    <div class="top_pageniation">
+                                        <ul>
+                                            <li>1</li>
+                                            <li>2</li>
+                                            <li>3</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="single_product_menu d-flex">
+                                    <div class="input-group d-flex">
+                                        <form action="{% url 'search' %}" class='d-flex' method="GET">
+                                            <input type="text" class="form-control" name="keyword" placeholder="search"
+                                                aria-describedby="inputGroupPrepend">
+                                            <div class="input-group-prepend">
+                                                <button type="submit" class="input-group-text" id="inputGroupPrepend">
+                                                    <i class="ti-search"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row align-items-center latest_product_inner">
+                        {% for product in products %}
+                        <a href="{{ product.get_url }}">
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="single_product_item d-flex-top">
+                                <img class="d-flex align-items-start" style="width:100%;height:400px" src="{{product.primary_image.url}}" alt="">
+                                <div class="single_product_text">
+                                    <a href=""></a>
+                                    <div style="min-height:6vh">
+                                        <h5>{{product.product_name | truncatechars:100}}</h5>
+                                    </div>
+                                    <h4>Rs.{{product.price}}</h4>
+                                    <a href="{% url 'add_wishlist' product.id %}" class=""><i class="ti-heart"></i></a>
+                                    <a href="{% url 'add_cart' product.id %}" class="add_cart">+ add to cart</a>
+                                </div>
+                            </div>
+                        </div><br><br><br>
+                        </a>
+                        {% endfor %}
+                        <div class="col-lg-12">
+                            {% if products.has_other_pages %}
+                            <div class="pageination">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-center">
+                                        {% if products.has_previous %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{ products.previous_page_number }}" aria-label="Previous">
+                                                <i class="ti-angle-double-left"></i>
+                                            </a>
+                                        </li>
+                                        {% else %}
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#" aria-label="Previous">
+                                                <i class="ti-angle-double-left"></i>
+                                            </a>
+                                        </li>
+                                        {% endif %}
+                                        {% for i in products.paginator.page_range %}
+                                            {% if products.number == i %}
+                                                <li class="page-item active"><a class="page-link" href="#">{{i}}</a></li>
+                                            {% else %}
+                                                <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if products.has_next %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{ products.next_page_number }}" aria-label="Next">
+                                                <i class="ti-angle-double-right"></i>
+                                            </a>
+                                        </li>
+                                        {% else %}
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#" aria-label="Next">
+                                                <i class="ti-angle-double-right"></i>
+                                            </a>
+                                        </li>
+                                        {% endif %}
+                                    </ul>
+                                </nav>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================End Category Product Area =================-->
+
+    <!-- product_list part start-->
+    <section class="product_list best_seller section_padding">  
+        <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+            <div class="section_tittle text-center">
+                <h2>Best Sellers <span>shop</span></h2>
+            </div>
+            </div>
+        </div>
+        <div class="row align-items-center justify-content-between">
+            <div class="col-lg-12">
+            <div class="best_product_slider owl-carousel">
+                {% for product in all %}
+                <a href="{{product.get_url}}">
+                    <div class="single_product_item">
+                    <img src="{{product.primary_image.url}}" style="height:350px" alt="" />
+                    <div class="single_product_text">
+                        <div style="min-height:7vh;">
+                            <h4>{{product.product_name}}</h4>
+                        </div>
+                        <h3 class="align-bottom">Rs.{{product.price}}</h3>
+                    </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+            </div>
+        </div>
+        </div>
+    </section>
+    <!-- product_list part end-->
+{% endblock content %}

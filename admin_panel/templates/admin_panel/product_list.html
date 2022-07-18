@@ -1,0 +1,69 @@
+{% extends "admin_main/admin_main.html" %}
+{% load static %}
+{% block title %}Bitstore Admin panel-All Products{% endblock title %}
+{% block content %}
+    <!-- Content -->
+
+    <!-- Hoverable Table rows -->
+    <div class="card m-3">
+        {% include 'accounts_includes/alerts.html' %}
+        <h5 class="card-header">All Products</h5>
+        <div class="table-responsive text-nowrap"style="min-height:80vh;">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>NO.</th>
+                        <th>PRODUCT NAME</th>
+                        <th>SLUG</th>
+                        <th>CATEGORY</th>
+                        <th>PRICE</th>
+                        <th>STOCK</th>
+                        <th>VENDOR</th>
+                        <th>CREATED DATE</th>
+                        <th>MODIFIED DATE</th>
+
+                    </tr>
+                </thead>
+                <tbody class="table-border-bottom-0">
+                    {% for product in products %}
+                    <tr>
+                        
+                        <td>{{forloop.counter}}</td>
+                        <td><a href="{% url 'admin_edit_product' product.slug %}">{{product.product_name}}</a></td>
+                        <td>{{product.slug}}</td>
+                        <td>{{product.category}}</td>
+                        <td>{{product.price}}</td>
+                        <td>{{product.stock}}</td>
+                        <td>{{product.vendor.username}}</td>
+                        <td>{{product.created_date}}</td>
+                        <td>{{product.modified_date}}</td>
+                        <td>
+                            <div class="dropdown">
+                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                </button>
+                                <div class="dropdown-menu">
+                                    {% if request.user == product.vendor %}
+                                    <a class="dropdown-item" href="{% url 'admin_edit_product' product.slug %}">
+                                        <i class="bx bx-edit-alt me-1"></i>
+                                        Edit
+                                    </a>
+                                    {% endif %}
+                                    <a class="dropdown-item" href="{% url 'admin_product_available_status' product.id %}"
+                                        onclick="return confirm('Please confirm the unlisting of {{product.product_name}}')">
+                                        <i class="bx bx-trash me-1"></i>
+                                        Unlist
+                                    </a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!--/ Hoverable Table rows -->
+
+    <!-- / Content -->
+{% endblock content %}

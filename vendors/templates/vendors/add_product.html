@@ -1,0 +1,92 @@
+{% extends "vendor_main/vendor_main.html" %}
+{% load static %}
+{% block title %}Bitstore Vendor's panel{% endblock title %}
+{% block content %}
+<!-- Content -->
+<!-- HTML5 Inputs -->
+<div class="card mb-4 mt-3 mx-2">
+    {% include 'accounts_includes/alerts.html' %}
+    <h5 class="card-header">Add Products</h5>
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="card-body">
+            <div class="mb-3 row">
+                <label for="exampleFormControlSelect1" class="col-md-2 col-form-label">Product Category</label>
+                <div class="col-md-10">
+                    {{form.category}}
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="exampleFormControlSelect1" class="col-md-2 col-form-label">Product Sub-category</label>
+                <div class="col-md-10">
+                    {{form.sub_category}}
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="html5-text-input" class="col-md-2 col-form-label">Product Name</label>
+                <div class="col-md-10">
+                {{form.product_name}}
+                {{form.product_name.errors}}
+                </div>
+            </div>
+
+            <div class="mb-3 mt-4 row">
+                <label for="html5-text-input" class="col-md-2 col-form-label">Author</label>
+                <div class="col-md-10">
+                    {{form.author}}
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="exampleFormControlTextarea1" class="col-md-2 col-form-label">Description</label>
+                <div class="col-md-10">
+                    {{form.description}}
+                </div>
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="col-md-2 col-form-label">Price</span>
+                <span class="input-group-text">Rs.</span>
+                {{form.price}}
+                <span class="input-group-text">.00</span>
+            </div>
+            
+            <div class="mb-3 row">
+                <label for="html5-number-input" class="col-md-2 col-form-label">Stock</label>
+                <div class="col-md-10">
+                {{form.stock}}
+                </div>
+            </div>
+
+            <!-- File input -->
+            <div class="mb-3 row">
+                <label for="formFile" class="col-md-2 col-form-label">Product Image</label>
+                {% comment %} <input class="form-control" name="images" type="file" id="formFileMultiple" multiple /> {% endcomment %}
+                {{form.primary_image}}
+            </div>
+
+            <div class="mb-3 row">
+                <label for="formFile" class="col-md-2 col-form-label">Product Image</label>
+                <input class="form-control" name="images" type="file" id="formFileMultiple" multiple />
+                {% comment %} {{form.images}} {% endcomment %}
+            </div>
+
+            <div class="form-check form-switch mb-2">
+                {{form.is_available}}
+                <label class="form-check-label" for="flexSwitchCheckChecked"
+                >Product available for sale</label
+                >
+            </div>
+            <div class="d-flex justify-content-end">
+                <a href="{% url 'vendor_products' user.id %}" class="btn btn-outline-danger">Back</a>
+                <div class="px-2"></div>
+                <button type="submit" class="btn btn-outline-primary">Save</button>
+            </div>
+            
+        </div>
+    </form>
+</div>
+<!-- / Content -->
+{% endblock content %}
