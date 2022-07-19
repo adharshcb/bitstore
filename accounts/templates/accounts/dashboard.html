@@ -26,10 +26,11 @@
                                 id="animationDemo"
                                 data-mdb-toggle="animation"
                                 data-mdb-animation-reset="true"
+                                {% if profile.profile_image %}
                                 src="{{profile.profile_image.url}}"
+                                {% endif %}
                                 class="shadow-1-strong rounded-circle"
                                 width='150'
-
                                 />                       
                         </div>
                     </div>
