@@ -105,6 +105,7 @@ def register_user(request):
                 username = email.split('@')[0]
                 user = Account.objects.create_user(first_name=first_name,last_name=last_name,email=email,username=username,password=password)
                 user.phone_number = phone_number
+                user.save() #to save user after email
 
                 #USER ACTIVATION
                 current_site = get_current_site(request)
@@ -119,7 +120,6 @@ def register_user(request):
                 send_email = EmailMessage(mail_subject,message,to=[to_email])
                 send_email.send()
 
-                user.save() #to save user after email
 
                 # messages.success(request,'Account is successfully created for '+username+'. \nPlease check your email to activate your account.')
                 return redirect('/accounts/login/?command=verification&email='+email)
