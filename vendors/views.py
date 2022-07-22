@@ -6,15 +6,12 @@ from vendors.forms import AddProductForm
 from django.forms import ValidationError
 from store.models import Product,Images
 from django.contrib import messages
-from accounts.models import Account
+from accounts.models import Account, UserProfile
 import os
 
 #email verification
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
-from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
-from django.utils.encoding import force_bytes
-from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
 
 
@@ -94,6 +91,7 @@ def vendor_dashboard(request):
             'profit':int(profit),
             'total_orders':int(total_orders),
             'orders':order_product,
+            'user_profile':UserProfile.objects.get(user=request.user)
             }
 
         return render(request,'vendors/dashboard.html',context)

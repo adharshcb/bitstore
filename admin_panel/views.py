@@ -7,6 +7,7 @@ from vendors.forms import AddProductForm
 from store.models import Product,Images
 from django.contrib import messages
 from accounts.models import Account
+from django.db.models import Sum
 
 #email verification
 from django.contrib.sites.shortcuts import get_current_site
@@ -26,24 +27,36 @@ def admin_home(request):
             total_orders = 0  
 
             sold_products = OrderProduct.objects.all()
-            ordered_product = Order.objects.filter(is_ordered=True)
 
-            for item in sold_products:
-                net_sales += (item.product_price * item.quantity)
-                shipping += 100
+            orders = Order.objects.filter(is_ordered=True)
+            gross_sales = Order.objects.filter(is_ordered=True).aggregate(sum = Sum('order_total'))['sum']
 
 
-            for item in ordered_product:
-                gross_sales += (item.order_total)
-                tax += item.tax
-                total_orders += 1
-                print(total_orders)
+            if gross_sales == None:
+                gross_sales = 0
+
             
 
+            total_orders = Order.objects.filter(is_ordered=True).count()
+            shipping = total_orders*100                                     # flat 100 per order for shipping
+            tax = Order.objects.filter(is_ordered=True).aggregate(sum = Sum('tax'))['sum']
 
-            vendor_commission = net_sales * 0.90                        # 10% commission for admin
+            if tax == None:
+                tax = 0
 
-            profit = gross_sales - shipping - tax - vendor_commission
+
+            net_sales = gross_sales - shipping - tax
+
+            vendor_commission = net_sales * 0.90                            # 10% commission for admin
+            profit = net_sales * 0.10
+
+            print(gross_sales)
+            print(shipping)
+            print(tax)
+            print(net_sales)
+            print(profit)
+            print(vendor_commission)
+            
             payment = tax + shipping + vendor_commission
             context = {
                 'menu':'dashboard',
@@ -91,7 +104,7 @@ def ban_user(request,id):
         to_email = email
         sent_email = EmailMessage(mail_subject,message,to=[to_email])
         sent_email.send()
-        messages.success(request,'Status email has been sent to '+email+'.')
+        messages.info(request,'Status email has been sent to '+email+'.')
 
         user.is_active = False
         user.is_staff = False
@@ -118,7 +131,7 @@ def unban_user(request,id):
         to_email = email
         sent_email = EmailMessage(mail_subject,message,to=[to_email])
         sent_email.send()
-        messages.success(request,'Status email has been sent to '+email+'.')
+        messages.info(request,'Status email has been sent to '+email+'.')
 
         user.is_active = True
         user.is_staff = False
@@ -156,7 +169,7 @@ def ban_vendor(request,id):
         to_email = email
         sent_email = EmailMessage(mail_subject,message,to=[to_email])
         sent_email.send()
-        messages.success(request,'Status email has been sent to '+email+'.')
+        messages.info(request,'Status email has been sent to '+email+'.')
 
         user.is_staff = False
         user.is_banned = True
@@ -182,7 +195,7 @@ def unban_vendor(request,id):
         to_email = email
         sent_email = EmailMessage(mail_subject,message,to=[to_email])
         sent_email.send()
-        messages.success(request,'Status email has been sent to '+email+'.')
+        messages.info(request,'Status email has been sent to '+email+'.')
 
         user.is_staff = True
         user.is_active = True
@@ -230,7 +243,7 @@ def vendor_approve(request,id):
         to_email = email
         sent_email = EmailMessage(mail_subject,message,to=[to_email])
         sent_email.send()
-        messages.success(request,'Approval email has been sent to '+email+'.')
+        messages.info(request,'Approval email has been sent to '+email+'.')
 
         user.is_staff = True
         user.vendor_req_status = False
@@ -256,7 +269,7 @@ def vendor_reject(request,id):
         to_email = email
         sent_email = EmailMessage(mail_subject,message,to=[to_email])
         sent_email.send()
-        messages.success(request,'Rejection email has been sent to '+email+'.')
+        messages.info(request,'Rejection email has been sent to '+email+'.')
 
         user.vendor_req_status = False
         user.vendor_req_rejection_status = True
@@ -379,7 +392,7 @@ def admin_edit_product(request,slug):
 
                 if form.is_valid():
                     form.save()
-                    messages.success(request,'Product updates successfully.')
+                    messages.info(request,'Product updates successfully.')
                     if product.is_available:
                         return redirect('products')
                     else:

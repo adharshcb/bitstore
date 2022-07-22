@@ -19,13 +19,14 @@
                         <th>DATE JOINNED</th>
                         <th>LAST LOGIN</th>
                         <th>IS ACTIVE</th>
+                        <th>UN BAN</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
                     {% for user in users %}
                     <tr>
                         <td>{{forloop.counter}}</td>
-                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{user.email}}</strong></td>
+                        <td><strong>{{user.email}}</strong></td>
                         <td>{{user.first_name}}</td>
                         <td>{{user.last_name}}</td>
                         <td>{{user.username}}</td>
@@ -33,18 +34,10 @@
                         <td>{{user.last_login}}</td>
                         <td>{{user.is_active}}</td>
                         <td>
-                            <div class="dropdown">
-                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                    <i class="bx bx-dots-vertical-rounded"></i>
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="{% url 'unban_user' user.id %}"
-                                    onclick="return confirm('Un-ban {{user.username}} ?')">
-                                        <i class="bx bx-trash me-1"></i>
-                                        Un-ban User
-                                    </a>
-                                </div>
-                            </div>
+                            <a class="dropdown-item" href="{% url 'unban_user' user.id %}"
+                                onclick="return confirm('Un-ban {{user.username}} ?')">
+                                <i class="fa-solid fa-user-check"></i>
+                            </a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -68,13 +61,14 @@
                     <th>DATE JOINNED</th>
                     <th>LAST LOGIN</th>
                     <th>IS VENDOR</th>
+                    <th>UN BAN</th>
                 </tr>
             </thead>
             <tbody class="table-border-bottom-0">
                 {% for vendor in vendors %}
                 <tr>
                     <td>{{forloop.counter}}</td>
-                    <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{vendor.email}}</strong></td>
+                    <td><strong>{{vendor.email}}</strong></td>
                     <td>{{vendor.first_name}}</td>
                     <td>{{vendor.last_name}}</td>
                     <td>{{vendor.username}}</td>
@@ -82,18 +76,10 @@
                     <td>{{vendor.last_login}}</td>
                     <td>{{vendor.is_staff}}</td>
                     <td>
-                        <div class="dropdown">
-                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                <i class="bx bx-dots-vertical-rounded"></i>
-                            </button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="{% url 'unban_vendor' vendor.id %}"
-                                onclick="return confirm('Un-ban {{vendor.username}} ?')">
-                                    <i class="bx bx-edit-alt me-1"></i>
-                                    Unban Vendor
-                                </a>
-                            </div>
-                        </div>
+                        <a class="dropdown-item" href="{% url 'unban_vendor' vendor.id %}"
+                            onclick="return confirm('Un-ban {{vendor.username}} ?')">
+                            <i class="fa-solid fa-user-check"></i>
+                        </a>
                     </td>
                 </tr>
                 {% endfor %}

@@ -3,7 +3,7 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">
       <a href="{% url 'admin_home' %}" class="app-brand-link">
-        <img style="height:55px;" src="{% static 'store/bitimg/icon6.png' %}" alt="logo" />
+        <img style="height:55px;" src="{% static 'store/bitimg/icon7.png' %}" alt="logo" />
         
       </a>
       
@@ -80,7 +80,7 @@
 
         <!-- Product Categories -->
 
-          <li {% if menu == 'products' %} class="menu-item active" {% else %} class="menu-item" {% endif %} >
+          <li class="menu-item {% if '/product/' in request.path %}active{% endif %}">
           <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-book"></i>
           <div data-i18n="Layouts">Products</div>

@@ -14,11 +14,11 @@ urlpatterns = [
 
     path('admin_sub_categories/',views.sub_category_list,name='sub_categories'),
 
-    path('admin_products/',views.product_list, name='products'),
-    path('admin_unlisted_products/',views.unlisted_product_list,name='unlisted_products'),
-    path('admin_add_product/',views.admin_add_product,name='admin_add_product'),
-    path('admin_edit_product/<str:slug>/',views.admin_edit_product,name='admin_edit_product'),
-    path('admin_product_status/<int:id>/',views.admin_product_available_status,name='admin_product_available_status'),
+    path('product/admin_products/',views.product_list, name='products'),
+    path('product/admin_unlisted_products/',views.unlisted_product_list,name='unlisted_products'),
+    path('product/admin_add_product/',views.admin_add_product,name='admin_add_product'),
+    path('product/admin_edit_product/<str:slug>/',views.admin_edit_product,name='admin_edit_product'),
+    path('product/admin_product_status/<int:id>/',views.admin_product_available_status,name='admin_product_available_status'),
 
     path('admin_add_category/',views.admin_add_category,name='admin_add_category'),
     path('admin_edit_category/<int:id>/',views.admin_edit_category,name='admin_edit_category'),

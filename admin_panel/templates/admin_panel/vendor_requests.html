@@ -20,13 +20,14 @@
                         <th>DATE JOINNED</th>
                         <th>LAST LOGIN</th>
                         <th>IS ACTIVE</th>
+                        <th>STATUS</th>
                     </tr>
              </thead>
              <tbody class="table-border-bottom-0">
                  {% for vendor in vendor_req %}
                     <tr>
                         <td>{{forloop.counter}}</td>
-                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{vendor.email}}</strong></td>
+                        <td><strong>{{vendor.email}}</strong></td>
                         <td>{{vendor.first_name}}</td>
                         <td>{{vendor.last_name}}</td>
                         <td>{{vendor.username}}</td>
@@ -36,17 +37,17 @@
                         <td>
                             <div class="dropdown">
                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                    <i class="fa-solid fa-ellipsis-vertical"></i>
                                 </button>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="{% url 'vendor_approve' vendor.id %}"
                                     onclick="return confirm('Approve {{vendor.username}} ?')">
-                                        <i class="bx bx-edit-alt me-1"></i>
+                                    <i class="fa-solid fa-check"></i>
                                         Approve
                                     </a>
                                     <a class="dropdown-item" href="{% url 'vendor_reject' vendor.id %}"
                                     onclick="return confirm('Reject {{vendor.username}} ?')">
-                                        <i class="bx bx-trash me-1"></i>
+                                    <i class="fa-solid fa-xmark"></i>
                                         Reject
                                     </a>
                                 </div>
@@ -75,13 +76,14 @@
                       <th>DATE JOINNED</th>
                       <th>LAST LOGIN</th>
                       <th>IS ACTIVE</th>
+                      <th>APPROVE</th>
                   </tr>
            </thead>
            <tbody class="table-border-bottom-0">
                {% for vendor in vendor_req_rejected %}
                   <tr>
                       <td>{{forloop.counter}}</td>
-                      <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{vendor.email}}</strong></td>
+                      <td><strong>{{vendor.email}}</strong></td>
                       <td>{{vendor.first_name}}</td>
                       <td>{{vendor.last_name}}</td>
                       <td>{{vendor.username}}</td>
@@ -89,18 +91,10 @@
                       <td>{{vendor.last_login}}</td>
                       <td>{{vendor.is_active}}</td>
                       <td>
-                          <div class="dropdown">
-                              <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                  <i class="bx bx-dots-vertical-rounded"></i>
-                              </button>
-                              <div class="dropdown-menu">
-                                  <a class="dropdown-item" href="{% url 'vendor_approve' vendor.id %}"
-                                    onclick="return confirm('Approve {{vendor.username}} ?')">
-                                    <i class="bx bx-edit-alt me-1"></i>
-                                      Approve
-                                  </a>
-                              </div>
-                          </div>
+                        <a class="dropdown-item" href="{% url 'vendor_approve' vendor.id %}"
+                        onclick="return confirm('Approve {{vendor.username}} ?')">
+                        <i class="fa-solid fa-check"></i>
+                      </a>
                       </td>
                   </tr>
                {% endfor %}

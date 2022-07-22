@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager,PermissionsMixin
+from requests import request
 # Create your models here.
 
 class MyAccountManager(BaseUserManager):
@@ -73,6 +74,9 @@ class Account(AbstractBaseUser,PermissionsMixin):
     
     def has_module_perms(self,add_label):
         return True
+
+    def userprofile(self):
+        return UserProfile.objects.get(user=self)
 
 
 

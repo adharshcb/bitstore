@@ -37,17 +37,15 @@
                         <td>
                             <div class="dropdown">
                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                    <i class="fa-solid fa-ellipsis-vertical"></i>
                                 </button>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="{% url 'admin_edit_sub_category' sub_category.id %}">
-                                        <i class="bx bx-edit-alt me-1"></i>
-                                        Edit
+                                        <i class="fa-solid fa-pencil"></i>&nbsp&nbspEdit
                                     </a>
                                     <a class="dropdown-item" href="{% url 'admin_delete_sub_category' sub_category.id %}"
                                     onclick="return confirm('Please confirm the deletion of {{sub_category.sub_category_name}} sub-category of {{sub_category.category.category_name}} category')">
-                                        <i class="bx bx-trash me-1"></i>
-                                        Delete
+                                    <i class="fa-solid fa-trash-can"></i>&nbsp&nbspDelete
                                     </a>
                                 </div>
                             </div>
