@@ -68,12 +68,13 @@ class OrderProduct(models.Model):
     variations = models.ManyToManyField(Variation,blank=True)
     quantity = models.IntegerField()
     product_price = models.FloatField()
+    order_product_total = models.FloatField(null=True,blank=True)
     ordered = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return self.product.product_name
+    def __unicode__(self):
+        return self.product
     
     def item_total(self):
-        return self.product*self.quantity   
+        return self.product_price*self.quantity

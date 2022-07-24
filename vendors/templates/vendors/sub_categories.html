@@ -30,7 +30,13 @@
                         <td>{{sub_category.sub_category_name}}</td>
                         <td>{{sub_category.slug}}</td>
                         <td>{{sub_category.description}}</td>
-                        <td><img src="{{sub_category.cat_image.url}}" style="height:50px;object-fit:contain;" alt="subcategoryimage"></td>
+                        <td>
+                            {% if sub_category.cat_image %}
+                            <img src="{{sub_category.cat_image.url}}" style="height:50px;object-fit:contain;" alt="subcategoryimage">
+                            {% else %}
+                            <i class="fa-solid fa-book"></i>
+                            {% endif %}
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>

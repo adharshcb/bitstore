@@ -40,6 +40,7 @@ def payments(request):
         order_product.user_id = request.user.id
         order_product.product_id = item.product_id
         order_product.quantity = item.quantity
+        order_product.order_product_total = item.quantity * item.product.price
         order_product.product_price = item.product.price
         order_product.ordered = True
         order_product.save()

@@ -50,13 +50,6 @@ def admin_home(request):
             vendor_commission = net_sales * 0.90                            # 10% commission for admin
             profit = net_sales * 0.10
 
-            print(gross_sales)
-            print(shipping)
-            print(tax)
-            print(net_sales)
-            print(profit)
-            print(vendor_commission)
-            
             payment = tax + shipping + vendor_commission
             context = {
                 'menu':'dashboard',

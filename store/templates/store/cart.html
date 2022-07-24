@@ -91,7 +91,7 @@
                     <td>
                         <div class="product_count d-flex justify-content-center">
                             <div>
-                                <a href="{% url 'remove_cart' cart_item.product.id cart_item.id %}" type='button' class="btn ti-angle-down"></a>
+                                <a href="{% url 'remove_cart' cart_item.product.id cart_item.id %}" type='button' class="btn fa-solid fa-angle-down"></a>
                             </div>
                             <div class="form-contro">
                                 <p>{{cart_item.quantity}}</p>
@@ -102,7 +102,7 @@
                                     {% for item in cart_item.variations.all %}
                                     <input type="hidden" class="position-absolute" name="{{item.variation_category | lower }}" value="{{item.variation_value }}" id="">
                                     {% endfor %}
-                                    <button type="submit" class="btn ti-angle-up" id="button-minus"></button>
+                                    <button type="submit" class="btn fa-solid fa-angle-up" id="button-minus"></button>
                                 </form>
                             </div>
                             {% comment %} <input class="" type="text" value="{{cart_item.quantity}}"> {% endcomment %}

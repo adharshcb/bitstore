@@ -3,16 +3,18 @@ from category.models import Category,Sub_category
 from django.shortcuts import redirect, render
 from orders.models import Order, OrderProduct
 from vendors.forms import AddProductForm
-from django.forms import ValidationError
 from store.models import Product,Images
 from django.contrib import messages
 from accounts.models import Account, UserProfile
-import os
+from django.db.models import Sum,Count
+from django.db.models import Q
 
 #email verification
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
+
+from wishlist.models import Wishlist
 
 
 # Create your views here.
@@ -55,33 +57,40 @@ def vendor_reg(request):
 
 def vendor_dashboard(request):
     if request.user.is_staff:
-        order_product = OrderProduct.objects.all().filter(product__vendor=request.user)
-        print(order_product)
-        net_sales = 0
-        gross_sales = 0
-        shipping = 0  
-        tax = 0
-        vendor_commission = 0
-        total_orders = 0  
 
-        for item in order_product:
-            net_sales += (item.product_price * item.quantity)
-            shipping += 100
-            
+        try:
+            sold_products = OrderProduct.objects.all().filter(product__vendor=request.user).order_by('-created_at')
+        except:
+            pass
 
 
-        # for item in order_product.order:
-        #     gross_sales += (item.order_total)
-        #     tax += item.tax
-        #     total_orders += 1
-        #     print(total_orders)
-        
+        try:
+            net_sales = OrderProduct.objects.filter(product__vendor=request.user).aggregate(sum = Sum('order_product_total'))['sum']
+        except:
+            pass
+
+        if net_sales == None:
+            net_sales = 0
 
 
-        vendor_commission = net_sales * 0.90                        # 10% commission for admin
+        tax = net_sales * 0.02                                          # 2% tax on total
 
-        profit = gross_sales - shipping - tax - vendor_commission
-        payment = tax + shipping + vendor_commission
+        gross_sales = net_sales + tax
+
+        total_orders = OrderProduct.objects.all().filter(product__vendor=request.user).count()
+
+        vendor_commission = net_sales * 0.90                            # 10% commission for admin
+        profit = net_sales * 0.10
+
+        payment = tax + profit
+
+        products_in_wishlist = Wishlist.objects.filter(product__vendor = request.user).count()
+
+        print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',sold_products)
+        variation_count = OrderProduct.objects.all().filter(product__vendor=request.user).aggregate(
+            # ebook = Count('variations',filter=Q( v = variations['ebook']))
+        )
+        print(variation_count)
 
         context = {
             'menu':'dashboard',
@@ -90,8 +99,9 @@ def vendor_dashboard(request):
             'payment':int(payment),
             'profit':int(profit),
             'total_orders':int(total_orders),
-            'orders':order_product,
-            'user_profile':UserProfile.objects.get(user=request.user)
+            'vendor_commission':int(vendor_commission),
+            'sold_products':sold_products,
+            'products_in_wishlist':products_in_wishlist,
             }
 
         return render(request,'vendors/dashboard.html',context)

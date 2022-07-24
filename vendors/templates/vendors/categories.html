@@ -21,7 +21,7 @@
                         <th>CATEGORY NAME</th>
                         <th>SLUG</th>
                         <th>DESCRIPTION</th>
-                        <th>CATEGORY IMAGE</th>
+                        <th><center>CATEGORY IMAGE</center></th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
@@ -30,8 +30,14 @@
                         <td>{{category.category_name}}</td>
                         <td>{{category.slug}}</td>
                         <td>{{category.description}}</td>
-                        <td><img src="{{category.cat_image.url}}" style="height:50px;object-fit:contain;" alt="categoryimage"></td>
-                        
+                        <td>
+                            <center>{% if category.cat_image %}
+                                <img src="{{category.cat_image.url}}" style="height:50px;" alt="categoryimage">
+                                {% else %}
+                                
+                                {% endif %}
+                            </center>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
