@@ -6,6 +6,7 @@ def home(request):
     carousel = Carousel.objects.all().filter(is_visible=True)
     featured = Carousel.objects.all().filter(is_visible=True,is_featured=True)
     all_products = Product.objects.all().filter(is_available=True)
+    print(all_products)
     context = {
         'products': products,
         'banners':carousel,

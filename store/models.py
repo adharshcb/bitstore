@@ -25,7 +25,7 @@ class Product(models.Model):
     is_top = models.BooleanField(default=False)
 
     def get_url(self):
-        return reverse('product_detail',args=[self.category.slug,self.slug])
+        return reverse('product_detail',args=[self.category.slug,self.sub_category.slug,self.slug])
 
     def __str__(self):
         return self.product_name

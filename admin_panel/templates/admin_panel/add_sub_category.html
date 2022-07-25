@@ -12,6 +12,14 @@
         <div class="card-body">
 
             <div class="mb-3 row">
+                <label for="exampleFormControlSelect1" class="col-md-2 col-form-label">Product Category</label>
+                <div class="col-md-10">
+                    {{form.category}}
+                    {{form.category.errors}}
+                </div>
+            </div>
+
+            <div class="mb-3 row">
                 <label for="exampleFormControlSelect1" class="col-md-2 col-form-label">Product Sub-Category</label>
                 <div class="col-md-10">
                     {{form.sub_category_name}}

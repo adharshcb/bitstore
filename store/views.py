@@ -2,7 +2,7 @@ from unicodedata import category
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from cart.models import Cart, Cart_item
-from category.models import Category
+from category.models import Category, Sub_category
 from .models import Product,Images
 from cart.views import _cart_id
 from django.db.models import Q
@@ -11,17 +11,26 @@ from django.db.models import Q
 from django.core.paginator import EmptyPage,PageNotAnInteger,Paginator
 
 # Create your views here.
-def store(request,category_slug=None):
+def store(request,category_slug=None,sub_category_slug=None):
     categories = None
+    sub_categories = None
     products = None
 
     if category_slug != None:
         categories = get_object_or_404(Category,slug=category_slug)
         products = Product.objects.filter(category=categories,is_available=True)
+
+        if sub_category_slug != None:
+            sub_categories = get_object_or_404(Sub_category,slug=sub_category_slug)
+            products = Product.objects.filter(sub_category=sub_categories,is_available=True)
+            
         paginator = Paginator(products,6)
         page = request.GET.get('page')
         paged_products = paginator.get_page(page)
         product_count = products.count()
+
+
+
     else:
         products = Product.objects.all().filter(is_available=True).order_by('id')
         paginator = Paginator(products,6)
@@ -30,6 +39,7 @@ def store(request,category_slug=None):
         product_count = products.count()
 
     all_products = Product.objects.all().filter(is_available=True)
+    
     context = { 
         'products': paged_products,
         'product_count':product_count,
@@ -38,9 +48,9 @@ def store(request,category_slug=None):
     return render(request,'store/store.html',context)
 
 
-def product_detail(request,category_slug,product_slug):
+def product_detail(request,category_slug,sub_category_slug,product_slug):
     try:
-        single_product = Product.objects.get(category__slug=category_slug,slug=product_slug)
+        single_product = Product.objects.get(category__slug=category_slug,sub_category__slug=sub_category_slug,slug=product_slug)
         in_cart = Cart_item.objects.filter(cart__cart_id = _cart_id(request),product = single_product).exists()
         images = Images.objects.filter(product=single_product)
     except Exception as e:

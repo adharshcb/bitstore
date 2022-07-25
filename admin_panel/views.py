@@ -491,17 +491,12 @@ def admin_add_sub_category(request):
             form = AddSubCategoryForm(request.POST,request.FILES)
             if form.is_valid():
                 sub_category_name = form.cleaned_data['sub_category_name']
-                description = form.cleaned_data['description']
                 slug = slugify(sub_category_name)
-                cat_image = form.cleaned_data['cat_image']
-
-                sub_category = Sub_category.objects.create(
-                    sub_category_name=sub_category_name,
-                    slug=slug,
-                    description=description,
-                    cat_image=cat_image,
-                    )
+                sub_category=form.save()
+                sub_category.slug=slug
+                sub_category.save()
                 return redirect('sub_categories')
+
         else:
             form = AddSubCategoryForm()
         context={
@@ -521,7 +516,7 @@ def admin_edit_sub_category(request,id):
                 sub_category_name = form.cleaned_data['sub_category_name']
                 slug = slugify(sub_category_name)
                 form.save()
-                slug=slug
+                sub_category.slug=slug
                 sub_category.save()
                 return redirect('sub_categories')
         else:

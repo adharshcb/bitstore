@@ -121,25 +121,31 @@
     <div class="container">
       <div class="row s_product_inner justify-content-between">
         <div class="col-lg-7 col-xl-7 justify-content-center">
-          <div class="main_image" style="height:52vh">
-            <center><img src="{{single_product.primary_image.url}}" alt="" style="height:30vw"></center>
-          </div>
-          <ul class="thumb" style="margin:0 auto; padding:0; float: left;">
+          <div class="col-2">
+            <ul class="thumb" style="margin:0 auto; padding:0; float: left;">
             <li style="list-style: none; margin: 10px;">
               <a 
                 href="{{single_product.primary_image.url}}" 
                 target="main_image">
                 <img src="{{single_product.primary_image.url}}" alt="Product Image"  
-                  style=" width: 80px; height: 100px; border: 1px solid grey;"
+                  style=" width: 80px;  border: 1px solid grey;"
                 >
               </a>
+              <br>
+              <br>
               {% for i in images %}
-              <a href="{{i.image.url}}" target="main_image"><img src="{{i.image.url}}" alt="Product Image"  
-                style=" width: 80px; height: 100px; border: 1px solid grey;">
+              <a class="" href="{{i.image.url}}" target="main_image"><img src="{{i.image.url}}" alt="Product Image"  
+                style=" width: 80px; border: 1px solid grey;">
               </a>
+              <br>
+              <br>
               {% endfor %}
             </li>
           </ul>
+          </div>
+          <div class="main_image">
+            <center><img src="{{single_product.primary_image.url}}" alt="" style="height:60vh"></center>
+          </div>
         </div> 
 
         <div class="col-lg-5 col-xl-4">

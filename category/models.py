@@ -1,3 +1,4 @@
+
 from django.db import models
 from django.urls import reverse
 
@@ -19,6 +20,7 @@ class Category(models.Model):
         return self.category_name
 
 class Sub_category(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     sub_category_name = models.CharField(max_length=50,unique=True)
     slug = models.SlugField(max_length=100,unique=True)
     description = models.TextField()
@@ -29,7 +31,7 @@ class Sub_category(models.Model):
         verbose_name_plural = 'sub_categories'
 
     def get_url(self):
-        return reverse('products_by_sub_category',args=[self.slug,self.slug])
+        return reverse('products_by_sub_category',args=[self.category.slug,self.slug])
 
     def __str__(self):
         return self.sub_category_name
