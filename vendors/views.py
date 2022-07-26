@@ -86,7 +86,6 @@ def vendor_dashboard(request):
 
         products_in_wishlist = Wishlist.objects.filter(product__vendor = request.user).count()
 
-        print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',sold_products)
         variation_count = OrderProduct.objects.all().filter(product__vendor=request.user).aggregate(
             # ebook = Count('variations',filter=Q( v = variations['ebook']))
         )

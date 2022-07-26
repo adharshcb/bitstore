@@ -25,9 +25,11 @@
     <link rel="stylesheet" href="{% static 'store/css/magnific-popup.css' %}">
     <!-- swiper CSS -->
     <link rel="stylesheet" href="{% static 'store/css/slick.css' %}">
+    {% block link %}{% endblock link %}
     <!-- style CSS -->
     <link rel="stylesheet" href="{% static 'store/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'store/css/custom.css' %}">
+    {% block style %}{% endblock style %}
     <style>
       .errorlist{
         position: absolute;
@@ -37,7 +39,6 @@
         color:red;
       }
     </style>
-    {% block style %}{% endblock style %}
     
 </head>
 
@@ -46,20 +47,21 @@
     {% block content %}
     {% endblock content %}
     {% include 'includes/footer.html' %}
-    <!-- jquery plugins here-->
+
     <script>
       window.setTimeout(function() {
         $(".alert").fadeTo(500, 0).slideUp(500, function(){
-            $(this).remove(); 
+          $(this).remove(); 
         });
       }, 2000);
     </script>
-    {% block script %}{% endblock script %}
-    <script src="{% static 'store/js/jquery-1.12.1.min.js' %}"></script>
+    
 
     <!-- font awesome -->
     <script src="https://kit.fontawesome.com/2523a5d8cd.js" crossorigin="anonymous"></script>
     
+    <!-- jquery plugins here-->
+    <script src="{% static 'store/js/jquery-1.12.1.min.js' %}"></script>
     <!-- popper js -->
     <script src="{% static 'store/js/popper.min.js' %}"></script>
     <!-- bootstrap js -->
@@ -76,7 +78,6 @@
     <script src="{% static 'store/js/jquery.nice-select.min.js' %}"></script>
     <!-- slick js -->
     <script src="{% static 'store/js/slick.min.js' %}"></script>
-    <script src="{% static 'js/swiper.jquery.js' %}"></script>
     <script src="{% static 'store/js/jquery.counterup.min.js' %}"></script>
     <script src="{% static 'store/js/waypoints.min.js' %}"></script>
     <script src="{% static 'store/js/contact.js' %}"></script>
@@ -85,9 +86,11 @@
     <script src="{% static 'store/js/jquery.validate.min.js' %}"></script>
     <script src="{% static 'store/js/mail-script.js' %}"></script>
     <script src="{% static 'js/stellar.js' %}"></script>
+    <script src="{% static 'js/swiper.jquery.js' %}"></script>
     <!-- custom js -->
     <script src="{% static 'js/theme.js' %}"></script>
     <script src="{% static 'store/js/custom.js' %}"></script>
+    {% block script %}{% endblock script %}
 </body>
 
 </html>

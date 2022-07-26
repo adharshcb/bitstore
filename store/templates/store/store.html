@@ -1,13 +1,19 @@
 {% extends 'home/main.html' %}
 {% load static %}
 {% block title %}BitStore{%endblock title %}
-{% block content %}
+{% block link %}
+<link rel="stylesheet" href="{% static 'store/css/price_rangs.css'%}">
+{% endblock link %}
 
+{% block style %}
 <style>
     .section_padding {
         padding: 80px 0px;
     }
 </style>
+{% endblock style %}
+{% block content %}
+
     <!--================Home Banner Area =================-->
     <!-- breadcrumb start-->
 <section class="breadcrumb" style="height:200px; background-color:#ecfdff" >
@@ -63,17 +69,20 @@
                             </div>
                             <div class="widgets_inner">
                                 <div class="range_item">
-                                    <div id="slider-range"></div>
-                                    <input type="text" class="js-range-slider w-75" value="" />
+                                    <!-- <div id="slider-range"></div> -->
+                                    <input type="text" class="js-range-slider" />
                                     <div class="d-flex">
-                                        <div class="price_text">
-                                            <p>Price :</p>
-                                        </div>
-                                        <div class="price_value d-flex justify-content-center">
-                                            <input type="text" class="js-input-from" id="amount" readonly />
-                                            <span>to</span>
-                                            <input type="text" class="js-input-to" id="amount" readonly />
-                                        </div>
+                                        <form action="" method="GET">
+                                            <div class="price_text">
+                                                <p>Price :</p>
+                                            </div>
+                                            <div class="price_value d-flex justify-content-center">
+                                                <input type="text" class="js-input-from" id="amount" name="min_filter" readonly />
+                                                <span>to</span>
+                                                <input type="text" class="js-input-to"  id="amount" name="max_filter" readonly />    
+                                            </div>
+                                            <button class="w-100 my-3 btn_3">Filter</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -224,3 +233,6 @@
     </section>
     <!-- product_list part end-->
 {% endblock content %}
+{% block script %}
+<script src="{% static 'store/js/price_rangs.js'%}"></script>
+{% endblock script %}
