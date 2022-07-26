@@ -77,13 +77,14 @@
                                                 <p>Price :</p>
                                             </div>
                                             <div class="price_value d-flex justify-content-center">
-                                                <input type="text" class="js-input-from" id="amount" name="min_filter" readonly />
+                                                <input type="text" class="js-input-from"  id="amount1" name="min_filter" readonly />
                                                 <span>to</span>
-                                                <input type="text" class="js-input-to"  id="amount" name="max_filter" readonly />    
+                                                <input type="text" class="js-input-to" id="amount2" name="max_filter" readonly />
                                             </div>
-                                            <button class="w-100 my-3 btn_3">Filter</button>
+                                            <button class="w-100 my-3 btn_3" >Filter</button>
                                         </form>
                                     </div>
+                                    <input type="text" hidden id="input_max_price" value="{{max_price}}">
                                 </div>
                             </div>
                         </aside>

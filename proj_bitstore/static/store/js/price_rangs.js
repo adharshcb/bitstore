@@ -2370,6 +2370,7 @@
 
 
 // Trigger
+var max_input = $('#input_max_price').val();
 
 $(function () {
   
@@ -2378,20 +2379,20 @@ var $range = $(".js-range-slider"),
     $inputTo = $(".js-input-to"),
     instance,
     min = 0,
-    max = 15000,
+    max = max_input,
     from = 10,
     to = 100;
 
 $range.ionRangeSlider({
     type: "double",
-    min: 0,
-    max: 15000,
+    min: min,
+    max: max,
     from: 0,
-    to: 15000,
-  prefix: 'tk. ',
+    to: max,
+  prefix: '',
     onStart: updateInputs,
     onChange: updateInputs,
-    step: 10,
+    step: 1,
     prettify_enabled: true,
     prettify_separator: ".",
   values_separator: " - ",

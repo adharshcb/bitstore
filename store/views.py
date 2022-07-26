@@ -14,8 +14,8 @@ from django.core.paginator import EmptyPage,PageNotAnInteger,Paginator
 def store(request,category_slug=None,sub_category_slug=None):
     all_products = Product.objects.all().filter(is_available=True).order_by('product_name')
 
-    min_price = all_products.aggregate(Min('price'))
-    max_price = all_products.aggregate(Max('price'))
+    min_price = all_products.aggregate(Min('price'))['price__min']
+    max_price = all_products.aggregate(Max('price'))['price__max']
 
     minimum_filter_value = request.GET.get('min_filter')
     maximum_filter_value = request.GET.get('max_filter')
