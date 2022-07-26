@@ -19,7 +19,6 @@ def store(request,category_slug=None,sub_category_slug=None):
 
     minimum_filter_value = request.GET.get('min_filter')
     maximum_filter_value = request.GET.get('max_filter')
-    print(minimum_filter_value,maximum_filter_value)
 
     categories = None
     sub_categories = None
@@ -57,7 +56,7 @@ def store(request,category_slug=None,sub_category_slug=None):
 
 
             
-        paginator = Paginator(products,6)
+        paginator = Paginator(products,3)
         page = request.GET.get('page')
         paged_products = paginator.get_page(page)
         product_count = products.count()
@@ -74,7 +73,7 @@ def store(request,category_slug=None,sub_category_slug=None):
                 is_available=True,
             ).order_by('product_name')
 
-        paginator = Paginator(products,6)
+        paginator = Paginator(products,3)
         page = request.GET.get('page')
         paged_products = paginator.get_page(page)
         product_count = products.count()
@@ -114,7 +113,8 @@ def search(request):
             products = Product.objects.order_by('-created_date').filter(
                 Q(description__icontains = keyword) |
                 Q(product_name__icontains = keyword) |
-                Q(author__icontains = keyword)
+                Q(author__icontains = keyword) |
+                Q(category__category_name__icontains = keyword)
             )
             paginator = Paginator(products,6)
             page = request.GET.get('page')

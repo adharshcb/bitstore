@@ -77,9 +77,9 @@
                                                 <p>Price :</p>
                                             </div>
                                             <div class="price_value d-flex justify-content-center">
-                                                <input type="text" class="js-input-from"  id="amount1" name="min_filter" readonly />
+                                                <input type="text" class="js-input-from"  id="amount1" name="min_filter"  />
                                                 <span>to</span>
-                                                <input type="text" class="js-input-to" id="amount2" name="max_filter" readonly />
+                                                <input type="text" class="js-input-to" id="amount2" name="max_filter"  />
                                             </div>
                                             <button class="w-100 my-3 btn_3" >Filter</button>
                                         </form>
@@ -97,24 +97,14 @@
                                 <div class="single_product_menu">
                                     <p><span>{{product_count}}</span> Products Found</p>
                                 </div>
-                                <div class="single_product_menu d-flex">
+                                {% comment %} <div class="single_product_menu d-flex">
                                     <h5>short by : </h5>
                                     <select>
                                         <option data-display="Select">name</option>
                                         <option value="1">price</option>
                                         <option value="2">product</option>
                                     </select>
-                                </div>
-                                <div class="single_product_menu d-flex">
-                                    <h5>show :</h5>
-                                    <div class="top_pageniation">
-                                        <ul>
-                                            <li>1</li>
-                                            <li>2</li>
-                                            <li>3</li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                </div> {% endcomment %}
                                 <div class="single_product_menu d-flex">
                                     <div class="input-group d-flex">
                                         <form action="{% url 'search' %}" class='d-flex' method="GET">
@@ -159,13 +149,13 @@
                                         {% if products.has_previous %}
                                         <li class="page-item">
                                             <a class="page-link" href="?page={{ products.previous_page_number }}" aria-label="Previous">
-                                                <i class="ti-angle-double-left"></i>
+                                                <i class="fa-solid fa-angles-left"></i>
                                             </a>
                                         </li>
                                         {% else %}
                                         <li class="page-item disabled">
                                             <a class="page-link" href="#" aria-label="Previous">
-                                                <i class="ti-angle-double-left"></i>
+                                                <i class="fa-solid fa-angles-left"></i>
                                             </a>
                                         </li>
                                         {% endif %}
@@ -179,13 +169,13 @@
                                         {% if products.has_next %}
                                         <li class="page-item">
                                             <a class="page-link" href="?page={{ products.next_page_number }}" aria-label="Next">
-                                                <i class="ti-angle-double-right"></i>
+                                                <i class="fa-solid fa-angles-right"></i>
                                             </a>
                                         </li>
                                         {% else %}
                                         <li class="page-item disabled">
                                             <a class="page-link" href="#" aria-label="Next">
-                                                <i class="ti-angle-double-right"></i>
+                                                <i class="fa-solid fa-angles-right"></i>
                                             </a>
                                         </li>
                                         {% endif %}
