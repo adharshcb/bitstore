@@ -77,30 +77,33 @@
 
         <!-- Order List -->
 
-        <li {% if menu == 'product' %} class="menu-item active" {% else %} class="menu-item" {% endif %}>
+        <li class="menu-item {% if '/order/' in request.path %}active{% endif %}">
           <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-book"></i>
           <div data-i18n="Layouts">All Orders</div>
           </a>
 
-          <ul class="menu-sub">
-              <li class="menu-item">
-                  <a href="{% url 'Order_Pending_list' %}" class="menu-link">
-                  <div data-i18n="Without menu">Pending Orders</div>
-                  </a>
-              </li>
-              <li class="menu-item">
-                  <a href="" class="menu-link">
-                  <div data-i18n="Without navbar">Completed Orders</div>
-                  </a>
-              </li>
-              <li class="menu-item">
-                <a href="" class="menu-link">
-                <div data-i18n="Without navbar">Cancelled Orders</div>
+          <ul class="menu-sub list-unstyled">
+            <li class="menu-item">
+                <a href="{% url 'order_Pending_list' %}" class="menu-link">
+                <div data-i18n="Without menu">Pending Orders</div>
                 </a>
+            </li>
+          
+            <li class="menu-item">
+              <a href="{% url 'completed_orders' %}" class="menu-link">
+              <div data-i18n="Without navbar">Completed Orders</div>
+              </a>
+            </li>
+
+            <li class="menu-item">
+              <a href="{% url 'cancelled_orders' %}" class="menu-link">
+              <div data-i18n="Without navbar">Cancelled Orders</div>
+              </a>
             </li>
               
           </ul>
+
         </li>
 
 

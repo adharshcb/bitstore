@@ -134,8 +134,8 @@
                                         <h5>{{product.product_name | truncatechars:100}}</h5>
                                     </div>
                                     <h4>Rs.{{product.price}}</h4>
-                                    <a href="{% url 'add_wishlist' product.id %}" class=""><i class="ti-heart"></i></a>
-                                    <a href="{% url 'add_cart' product.id %}" class="add_cart">+ add to cart</a>
+                                    <a href="{% url 'add_wishlist' product.id %}" class=""><i class="fa-solid fa-heart text-danger"></i></a>
+                                    <a href="{{ product.get_url }}" class="add_cart">View</a>
                                 </div>
                             </div>
                         </div><br><br><br>

@@ -6,7 +6,10 @@ from vendors.forms import AddProductForm
 from store.models import Product,Images
 from django.contrib import messages
 from accounts.models import Account, UserProfile
+
 from django.db.models import Sum,Count
+from django.db.models.functions import TruncMonth,TruncMinute,TruncDay
+import datetime
 from django.db.models import Q
 
 #email verification
@@ -63,7 +66,6 @@ def vendor_dashboard(request):
         except:
             pass
 
-
         try:
             net_sales = OrderProduct.objects.filter(product__vendor=request.user).aggregate(sum = Sum('order_product_total'))['sum']
         except:
@@ -89,7 +91,17 @@ def vendor_dashboard(request):
         variation_count = OrderProduct.objects.all().filter(product__vendor=request.user).aggregate(
             # ebook = Count('variations',filter=Q( v = variations['ebook']))
         )
-        print(variation_count)
+
+        chart_year = datetime.date.today().year
+        chart_month = datetime.date.today().month
+
+        daily_revenue = OrderProduct.objects.filter(created_at__year=chart_year,created_at__month=chart_month,product__vendor=request.user).order_by('created_at').annotate(day=TruncMinute('created_at')).values('day').annotate(sum=Sum('order_product_total')).values('day','sum')
+
+        day=[]
+        revenue=[]
+        for i in daily_revenue:
+            day.append(i['day'].minute)
+            revenue.append(int(i['sum']))
 
         context = {
             'menu':'dashboard',
@@ -101,6 +113,8 @@ def vendor_dashboard(request):
             'vendor_commission':int(vendor_commission),
             'sold_products':sold_products,
             'products_in_wishlist':products_in_wishlist,
+            'day':day,
+            'revenue':revenue,
             }
 
         return render(request,'vendors/dashboard.html',context)
@@ -108,12 +122,28 @@ def vendor_dashboard(request):
         return redirect('vendor_registration')
 
 
-def Order_Pending_list(request):
+def order_Pending_list(request):
     if request.user.is_staff:
         context = {
-            'order_list':OrderProduct.objects.filter(product__vendor=request.user,status='New')
+            'order_list':OrderProduct.objects.filter(product__vendor=request.user,order__status='New')
         }
-        return render(request,'vendor/Order_Pending_list.html',context)
+        return render(request,'vendors/order_Pending_list.html',context)
+
+
+def cancelled_orders(request):
+    if request.user.is_staff:
+        context = {
+            'order_list':OrderProduct.objects.filter(product__vendor=request.user,order__status='Cancelled')
+        }
+        return render(request,'vendors/order_cancelled_list.html',context)
+
+
+def completed_orders(request):
+    if request.user.is_staff:
+        context = {
+            'order_list':OrderProduct.objects.filter(product__vendor=request.user,order__status='Completed')
+        }
+        return render(request,'vendors/order_completion_list.html',context)
 
 
 def category_list(request):
@@ -209,7 +239,6 @@ def edit_product(request,slug):
                 image.delete()
 
             images = request.FILES.getlist('images')
-            print(images)
             for image in images:
                 Images.objects.create(  
                     image=image,

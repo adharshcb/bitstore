@@ -15,6 +15,7 @@ class VariationAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Product,ProductAdmin)
+admin.site.register(VariationSample)
 admin.site.register(Carousel)
 admin.site.register(Images)
 admin.site.register(Variation,VariationAdmin)

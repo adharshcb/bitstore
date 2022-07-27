@@ -66,6 +66,14 @@ class Variation(models.Model):
         return self.variation_value
 
 
+class VariationSample(models.Model):
+    type = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
+    is_active = models.BooleanField(default=True)
+    def __str__(self):
+        return self.name
+
+
 class Carousel(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()

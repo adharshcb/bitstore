@@ -1,0 +1,54 @@
+{% extends "vendor_main/vendor_main.html" %}
+{% load static %}
+{% block title %}Bitstore Vendor's panel{% endblock title %}
+{% block content %}
+    <!-- Content -->
+
+    <!-- Hoverable Table rows -->
+   
+    <div class="card m-3" >
+        <div class="container mt-0">
+            {% if messages %}
+            <div class="row justify-content-center mt-0">
+                {% include 'accounts_includes/alerts.html' %}
+            </div>
+            {% endif %}
+        </div>
+        <h5 class="card-header">All Completed orders</h5>
+        <div class="table-responsive text-nowrap " style="min-height:80vh;" >
+            <table class="table table">
+                <thead>
+                    <tr>
+                        <th>NO.</th>
+                        <th>ORDER NUMBER</th>
+                        <th>PRODUCT NAME</th>
+                        <th>PRODUCT CATEGORY</th>
+                        <th>PRICE</th>
+                        <th>QUANTITY</th>
+                        <th>CREATED DATE</th>
+                        <th>STATUS</th>
+
+                    </tr>
+                </thead>
+                <tbody class="table-border-bottom-0">
+                    {% for order in order_list %}
+                    <tr>
+                        <a href="home">
+                            <td>{{forloop.counter}}</td>
+                            <td>{{order.order.order_number}}</td>
+                            <td>{{order.product.product_name}}</td>
+                            <td>{{order.product.category}}</td>
+                            <td>{{order.product.price}}</td>
+                            <td>{{order.quantity}}</td>
+                            <td>{{order.created_at}}</td>
+                            <td>{{order.order.status}}</td>
+                        </a>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!--/ Hoverable Table rows -->
+    <!-- / Content -->
+{% endblock content %}

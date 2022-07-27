@@ -1,13 +1,17 @@
+from calendar import month
 from django.template.defaultfilters import slugify
 from category.forms import AddCategoryForm,AddSubCategoryForm
 from category.models import Category,Sub_category
 from django.shortcuts import redirect, render
 from orders.models import Order, OrderProduct
 from vendors.forms import AddProductForm
-from store.models import Product,Images
+from store.models import Product,Images, Variation, VariationSample
 from django.contrib import messages
 from accounts.models import Account
-from django.db.models import Sum
+from django.db.models import Sum,Count
+from django.db.models.functions import TruncMonth,TruncMinute,TruncDay
+import datetime
+
 
 #email verification
 from django.contrib.sites.shortcuts import get_current_site
@@ -26,31 +30,47 @@ def admin_home(request):
             vendor_commission = 0
             total_orders = 0  
 
-            sold_products = OrderProduct.objects.all()
+            chart_year = datetime.date.today().year
+            chart_month = datetime.date.today().month
 
-            orders = Order.objects.filter(is_ordered=True)
             gross_sales = Order.objects.filter(is_ordered=True).aggregate(sum = Sum('order_total'))['sum']
 
 
             if gross_sales == None:
                 gross_sales = 0
 
-            
-
             total_orders = Order.objects.filter(is_ordered=True).count()
-            shipping = total_orders*100                                     # flat 100 per order for shipping
+            # flat 100 per order for shipping
+            shipping = total_orders*100                                     
             tax = Order.objects.filter(is_ordered=True).aggregate(sum = Sum('tax'))['sum']
 
             if tax == None:
                 tax = 0
 
-
             net_sales = gross_sales - shipping - tax
 
-            vendor_commission = net_sales * 0.90                            # 10% commission for admin
+            # 10% commission for admin
+            vendor_commission = net_sales * 0.90                            
             profit = net_sales * 0.10
 
             payment = tax + shipping + vendor_commission
+
+            #getting daily revenue
+            daily_revenue = Order.objects.filter(                     
+                created_at__year=chart_year,created_at__month=chart_month
+            ).order_by('created_at').annotate(day=TruncMinute('created_at')).values('day').annotate(sum=Sum('order_total')).values('day','sum')
+
+
+            day=[]
+            revenue=[]
+            for i in daily_revenue:
+                day.append(i['day'].minute)
+                revenue.append(int(i['sum']))
+
+            #Order total for pie diagram.
+            
+
+
             context = {
                 'menu':'dashboard',
                 'sales':int(net_sales),
@@ -58,6 +78,8 @@ def admin_home(request):
                 'payment':int(payment),
                 'profit':int(profit),
                 'total_orders':int(total_orders),
+                'day':day,
+                'revenue':revenue,
                 }
 
             return render(request,'admin_panel/dashboard.html',context)
@@ -345,7 +367,8 @@ def admin_add_product(request):
                     sub_category=sub_category,
                     primary_image=primary_image
                     )
-                
+
+
                 images = request.FILES.getlist('images')
                 for image in images:
                     Images.objects.create(
@@ -356,7 +379,9 @@ def admin_add_product(request):
         else:
             form = AddProductForm()
         context = {
-            'form':form
+            'form':form,
+            'variation_languages':VariationSample.objects.filter(type="language"),
+            'variation_type':VariationSample.objects.filter(type="type"),
         }
         return render(request,'admin_panel/add_product.html',context)
     else:
@@ -374,7 +399,6 @@ def admin_edit_product(request,slug):
                         image.delete()
 
                     images = request.FILES.getlist('images')
-                    print(images)
                     for image in images:
                         Images.objects.create(  
                             image=image,

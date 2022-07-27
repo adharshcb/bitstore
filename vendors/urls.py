@@ -11,5 +11,7 @@ urlpatterns = [
     path('add_product/',views.add_product,name='vendor_add_product'),
     path('edit_product/<str:slug>',views.edit_product,name='vendor_edit_product'),
     path('change_product_status/<int:id>',views.product_available_status, name="vendor_product_status"),
-    path('Order_Pending_list/',views.Order_Pending_list,name='Order_Pending_list')
+    path('order/order_Pending_list/',views.order_Pending_list,name='order_Pending_list'),
+    path('order/cancelled_orders/',views.cancelled_orders,name="cancelled_orders"),
+    path('order/completed_orders/',views.completed_orders,name="completed_orders"),
 ]
