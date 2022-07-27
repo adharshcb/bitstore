@@ -189,6 +189,7 @@ def cart(request,total=0,quantity=0,cart_items=None):
     except ObjectDoesNotExist:  
         pass
     context = {
+        'all':Product.objects.filter(is_available = True),
         'total':total,
         'quantity':quantity,
         'cart_items':cart_items,
