@@ -93,15 +93,16 @@ def add_wishlist(request,product_id):
             user = request.user,
             product = product
         )
-    url = request.META.get('HTTP_REFERER')
-    try:
-        query = requests.utils.urlparse(url).query
-        params = dict(value.split('=') for value in query.split('&'))
-        if 'next' in params:
-            next_page = params['next']
-            return redirect(next_page)
-    except:
-        return redirect('wishlist')
+    return redirect('wishlist')
+    # url = request.META.get('HTTP_REFERER')
+    # try:
+    #     query = requests.utils.urlparse(url).query
+    #     params = dict(value.split('=') for value in query.split('&'))
+    #     if 'next' in params:
+    #         next_page = params['next']
+    #         return redirect(next_page)
+    # except:
+    #     return redirect('wishlist')
 
 
 def remove_wishlist(request,product_id):
